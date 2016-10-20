@@ -1,0 +1,78 @@
+
+--
+-- Dumping data for table `acc_role`
+--
+
+INSERT INTO `acc_role` VALUES (1,4,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `acc_role` VALUES (2823,3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `acc_role` VALUES (2906,2,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `acc_role` VALUES (2907,2,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `acc_role` VALUES (3161,3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `acc_role` VALUES (3598,2,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+
+--
+-- Dumping data for table `account`
+--
+
+INSERT INTO `account` VALUES (1,'root','Y6nw6nu5gFB5a2SehUgYRQ==','管理员','18734804868','110000246600','1','123456','技侦','2014-11-12 01:44:36','根账号','2015-08-25 00:57:59',NULL,NULL,'2',NULL,NULL,NULL,NULL);
+INSERT INTO `account` VALUES (2906,'zhangsan','4QrcOUm6Wau+VuBX8g+IPg==','张三','13683189779','110229510000','1','111112','尸检','2015-08-21 07:18:09','test','2015-08-21 07:19:09',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `account` VALUES (2907,'lisi','MVHB4wfYa9SwU8n2s1pT7Q==','李四','13683189778','110229510000','1','111111','现勘','2015-08-21 07:18:09','test','2015-08-22 11:00:46',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `account` VALUES (3161,'jiadi','4QrcOUm6Wau+VuBX8g+IPg==','甲第','18612829031','110109400000','1',NULL,'','2015-08-22 05:43:10','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `account` VALUES (3598,'zhangyuyan','4QrcOUm6Wau+VuBX8g+IPg==','张禹炎','13683189779','110221420000','1','033393','警员','2015-08-22 09:57:57','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+
+--
+-- Dumping data for table `res_roles`
+--
+
+INSERT INTO `res_roles` VALUES (3,53,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `res_roles` VALUES (2,52,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `res_roles` VALUES (2,51,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `res_roles` VALUES (4,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `res_roles` VALUES (4,11,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `res_roles` VALUES (4,12,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `res_roles` VALUES (4,13,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `res_roles` VALUES (4,14,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `res_roles` VALUES (4,15,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `res_roles` VALUES (4,2,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `res_roles` VALUES (4,3,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `res_roles` VALUES (4,31,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `res_roles` VALUES (4,4,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `res_roles` VALUES (4,41,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `res_roles` VALUES (4,42,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `res_roles` VALUES (4,51,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `res_roles` VALUES (4,52,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `res_roles` VALUES (4,53,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `res_roles` VALUES (4,5,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+
+--
+-- Dumping data for table `resources`
+--
+
+INSERT INTO `resources` VALUES (1,'系统管理',0,'system','0','system',1,'系统管理',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `resources` VALUES (2,'一键搜',0,'search','0','',1,'一键搜',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `resources` VALUES (3,'串并案',0,'cba','0',NULL,1,'串并案',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `resources` VALUES (4,'统计',0,'statistics','0',NULL,1,'统计',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `resources` VALUES (5,'委托管理',0,'entrust_manager','0',NULL,1,'委托管理',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `resources` VALUES (11,'用户管理',1,'account','1','/background/account/list.html',2,'用户管理',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `resources` VALUES (12,'角色管理',1,'role','1','/background/role/list.html',2,'角色管理',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `resources` VALUES (13,'模块管理',1,'resources','1','/background/resources/list.html',2,'模块管理',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `resources` VALUES (14,'字典管理',1,'dic','1','/background/dic/list.html',2,'字典管理',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `resources` VALUES (15,'日志管理',1,'log','1','/background/log/list.html',2,'日志管理',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `resources` VALUES (31,'我的串并案',3,'myCba','1',NULL,2,'我的串并案',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `resources` VALUES (41,'个人委托信息统计',4,'pri_statistics','1',NULL,2,'个人委托信息统计',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `resources` VALUES (42,'组织委托信息统计',4,'org_statistics','1',NULL,2,'组织委托信息统计',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `resources` VALUES (51,'委托申请',5,'entrust_apply','1','/entrust/apply/index.html',2,'委托申请',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `resources` VALUES (52,'我的委托',5,'my_entrust','1','/entrust/myApply/index.html',2,'我的委托',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `resources` VALUES (53,'委托信息',5,'entrust_check','1','/entrust/check/index.html',2,'委托信息',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+
+--
+-- Dumping data for table `role`
+--
+
+INSERT INTO `role` VALUES (2,'公安用户','委托申请权限',1,'police',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `role` VALUES (3,'阿里用户','受理委托权限',1,'ali',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `role` VALUES (4,'管理员','拥有所有权限',1,'root',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+
+
+
+

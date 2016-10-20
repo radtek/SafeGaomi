@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hisign.publicsafety.mapper.entrust.EntrustListMapper">
+
+	<!--   -->
+	<sql id="selectId">
+		b.entrust_no,
+		c.case_name,
+		c.case_type,
+		b.process_state,
+		b.is_share_caseinfo,
+		b.is_share_queryresult,
+		b.create_date,
+		(select dicName from dic d where d.dicKey = b.unit) unit,
+		b.person_name
+	</sql>
+	
+	<sql id="clausePage">
+		from entrust_base_info b,entrust_case_info c
+		<where>
+			b.entrust_no=c.entrust_no
+			<if test="createUser != null and createUser != ''">
+				and b.create_user=#{createUser}
+			</if>
+			<if test="entrustNo != null and entrustNo != ''"><!-- = #{entrustNo} -->
+				and b.entrust_no like CONCAT(#{entrustNo},'%')
+			</if>
+			<if test="caseName != null and caseName != ''">
+				and c.case_name like CONCAT('%',#{caseName},'%')
+			</if>
+			<if test="caseType != null and caseType != ''">
+				and INSTR(#{caseType}, c.case_type) > 0
+			</if>
+			<if test="processState != null and processState != ''">
+				and INSTR(#{processState}, b.process_state) > 0
+			</if>
+			<if test="personName != null and personName != ''">
+				and b.person_name like CONCAT('%',#{personName},'%')
+			</if>
+			<if test="unit != null and unit != ''">
+				and INSTR(#{unit}, b.unit) > 0
+			</if>
+			<if test="entrustDateBegin != null and entrustDateBegin != ''">
+				and b.create_date &gt;= str_to_date(#{entrustDateBegin}, '%Y-%m-%d %H:%i')
+			</if>
+			<if test="entrustDateEnd != null and entrustDateEnd != ''">
+				and b.create_date &lt;= str_to_date(#{entrustDateEnd}, '%Y-%m-%d %H:%i')
+			</if>
+			<if test="isShareCaseinfo != null and isShareCaseinfo != ''">
+				and b.is_share_caseinfo = #{isShareCaseinfo}
+			</if>
+			<if test="isShareQueryresult != null and isShareQueryresult != ''">
+				and b.is_share_queryresult = #{isShareQueryresult}
+			</if>
+			<if test="caseOccurDateBegin != null and caseOccurDateBegin != ''">
+				and c.case_occur_date &gt;= str_to_date(#{caseOccurDateBegin}, '%Y-%m-%d %H:%i')
+			</if>
+			<if test="caseOccurDateEnd != null and caseOccurDateEnd != ''">
+				and c.case_occur_date &lt;= str_to_date(#{caseOccurDateEnd}, '%Y-%m-%d %H:%i')
+			</if>
+		</where>
+	</sql>
+		
+	<!-- 我的委托列表查询分页查询 -->
+	<select id="query" resultMap="entrustApplyDataMap" parameterType="java.util.HashMap">
+		select
+			<include refid="selectId" />
+		<include refid="clausePage" />
+		order by b.update_date desc
+			<if test="start != null or size != null">
+				limit #{start},#{size}
+			</if>
+	</select>
+	<!--  -->
+	<select id="getCount" resultType="Integer" parameterType="java.util.HashMap">
+		select
+			count(0)
+		<include refid="clausePage" />
+	</select>
+
+	<resultMap id="entrustApplyDataMap" type="EntrustApplyData">
+		<result property="entrustNo" column="entrust_no"/>
+		<association property="entrustInfo" column="entrust_no" javaType="EntrustBaseInfo">
+			<result property="entrustNo" column="entrust_no"/>
+			<result property="processState" column="process_state"/>
+			<result property="isShareCaseinfo" column="is_share_caseinfo"/>
+			<result property="isShareQueryresult" column="is_share_queryresult"/>
+			<result property="createDate" column="create_date"/>
+			<result property="unit" column="unit"/>
+			<result property="personName" column="person_name"/>
+		</association>
+		<association property="caseInfo" column="entrust_no" javaType="EntrustCaseInfo">
+			<result property="entrustNo" column="entrust_no"/>
+			<result property="caseName" column="case_name"/>
+			<result property="caseType" column="case_type"/>
+		</association>
+	</resultMap>
+</mapper>

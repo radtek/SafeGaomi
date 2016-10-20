@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hisign.publicsafety.mapper.series.SeriesInfoListMapper">
+
+	<!-- -->
+	<sql id="selectId">
+		p.id,
+		p.series_case_no,
+		p.series_case_name,
+		p.series_reason,
+		p.create_date,
+		(select count(0) from series_case_detail where series_case_id=p.id) case_count
+	</sql>
+
+	<sql id="clausePage">
+		from series_case_info p
+		<where>
+			<if test="seriesCaseNo != null and seriesCaseNo != ''">
+				and p.series_case_no like CONCAT(#{seriesCaseNo},'%')
+			</if>
+			<if test="seriesCaseName != null and seriesCaseName != ''">
+				and p.series_case_name like CONCAT('%',#{seriesCaseName},'%')
+			</if>
+			<if test="seriesReasonInt != null and seriesReasonInt != ''">
+				and p.series_reason_int >= #{seriesReasonInt}
+			</if>
+			<if test="createDateBegin != null and createDateBegin != ''">
+				and p.create_date &gt;= str_to_date(#{createDateBegin}, '%Y-%m-%d %H:%i')
+			</if>
+			<if test="createDateEnd != null and createDateEnd != ''">
+				and p.create_date &lt;= str_to_date(#{createDateEnd}, '%Y-%m-%d %H:%i')
+			</if>
+			and p.delete_flag!=<include refid="comm.deleteTrue" />
+		</where>
+	</sql>
+
+	<!-- 列表分页查询 -->
+	<select id="query" resultMap="seriesDataMap" parameterType="java.util.HashMap">
+		select
+		<include refid="selectId" />
+		<include refid="clausePage" />
+		order by p.update_date desc
+		<if test="start != null or size != null">
+			limit #{start},#{size}
+		</if>
+	</select>
+	<!-- -->
+	<select id="getCount" resultType="Integer" parameterType="java.util.HashMap">
+		select
+		count(0)
+		<include refid="clausePage" />
+	</select>
+
+	<resultMap id="seriesDataMap" type="SeriesData">
+		<result property="seriesCaseNo" column="series_case_no" />
+		<result property="caseCount" column="case_count" />
+		<association property="seriesCaseInfo" column="id" javaType="SeriesCaseInfo">
+			<id property="id" column="id" />
+			<result property="seriesCaseNo" column="series_case_no" />
+			<result property="seriesCaseName" column="series_case_name" />
+			<result property="seriesReason" column="series_reason" />
+			<result property="createDate" column="create_date" />
+		</association>
+	</resultMap>
+
+</mapper>

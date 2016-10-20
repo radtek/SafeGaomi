@@ -1,0 +1,78 @@
+
+<html>
+<head>
+<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&amp;subset=all" rel="stylesheet" type="text/css"/>
+<link href="$contextPath/ui/assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+<link href="$contextPath/ui/assets/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>
+<link href="$contextPath/ui/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+<link href="$contextPath/ui/assets/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" type="text/css" href="$contextPath/ui/assets/plugins/select2/select2.css"/>
+<link href="$contextPath/ui/assets/css/style-conquer.css" rel="stylesheet" type="text/css"/>
+<link href="$contextPath/ui/assets/css/style.css" rel="stylesheet" type="text/css"/>
+<link href="$contextPath/ui/assets/css/style-responsive.css" rel="stylesheet" type="text/css"/>
+<link href="$contextPath/ui/assets/css/plugins.css" rel="stylesheet" type="text/css"/>
+<link href="$contextPath/ui/assets/css/themes/default.css" rel="stylesheet" type="text/css" id="style_color"/>
+<link href="$contextPath/ui/assets/css/pages/login.css" rel="stylesheet" type="text/css"/>
+<link href="$contextPath/ui/assets/css/custom.css" rel="stylesheet" type="text/css"/>
+</head>
+<body class="login">
+<div class="logo">
+	<span style="margin-right:20px;"><img src="$contextPath/ui/assets/img/logo.png" width="60" height="60" ></span><span>安全O2O平台</span></div>
+<div class="content" >
+	<!-- BEGIN LOGIN FORM -->
+    <div style="float:left; margin-left:10%; margin-top:100px; padding:15px; "><img src="$contextPath/ui/assets/img/3.png" width="450" height="430"></div>
+	<div style="float:right;  margin-top:150px;">
+    <form class="login-form" style="float:right;margin-right:30%"; id="loginForm" name="loginForm"
+    	action="$contextPath/submitlogin.html" method="post">
+    	<input type="hidden" id="CSRFToken" name="CSRFToken" value="${csrf}" />
+		<h3 class="form-title" style="padding-bottom:15px;">用户登录</h3>
+		<div class="alert alert-danger display-hide">
+			<button class="close" data-close="alert"></button>
+			<span>
+			请输入用户名和密码 </span>
+		</div>
+		<div class="form-group">
+			<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+			<label class="control-label visible-ie8 visible-ie9">用户名</label>
+			<div class="input-icon">
+				<i class="fa fa-user"></i>
+				<input id="username" class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="用户名" name="username"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label visible-ie8 visible-ie9">密码</label>
+			<div class="input-icon">
+				<i class="fa fa-lock"></i>
+				<input id="password" class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="密码" name="password"/>
+			</div>
+		</div>
+		<div class="form-actions">
+        	<button type="submit" class="btn btn-info btn-block pull-right" >登 录 </button>
+		</div>
+	</form>
+	</div>
+</div>
+<div class="copyright">
+	 北京海鑫科金高科技股份有限公司
+</div>
+<script src="$contextPath/ui/assets/plugins/jquery-1.11.0.min.js" type="text/javascript"></script>
+<script src="$contextPath/ui/assets/plugins/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
+<script src="$contextPath/ui/assets/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
+<script src="$contextPath/ui/assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="$contextPath/ui/assets/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
+<script src="$contextPath/ui/assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+<script src="$contextPath/ui/assets/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+<script src="$contextPath/ui/assets/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
+<script src="$contextPath/ui/assets/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
+<script src="$contextPath/ui/assets/plugins/select2/select2.min.js" type="text/javascript"></script>
+<script src="$contextPath/ui/assets/scripts/app.js" type="text/javascript"></script>
+<script src="$contextPath/ui/assets/scripts/login.js" type="text/javascript"></script>
+<script>
+jQuery(document).ready(function() {     
+  App.init();
+  Login.init();
+});
+</script>
+<
+</body>
+</html>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hisign.publicsafety.mapper.series.SeriesDetailCaseListMapper">
+
+	<!-- -->
+	<sql id="selectId">
+		c.id case_id,
+		c.entrust_no,
+		c.case_no,
+		c.case_name,
+		c.case_type,
+		b.province_code,
+		b.city_code
+	</sql>
+
+	<sql id="clausePage">
+		from entrust_case_info c, entrust_base_info b, series_case_detail detail
+		<where>
+			detail.case_id=c.id and c.entrust_no=b.entrust_no
+			<if test="seriesCaseId != null and seriesCaseId != ''">
+				and detail.series_case_id = #{seriesCaseId}
+			</if>
+			and detail.delete_flag!=<include refid="comm.deleteTrue" />
+		</where>
+	</sql>
+
+	<!-- 列表分页查询 -->
+	<select id="query" resultMap="seriesDataMap" parameterType="java.util.HashMap">
+		select
+		<include refid="selectId" />
+		<include refid="clausePage" />
+		<if test="start != null or size != null">
+			limit #{start},#{size}
+		</if>
+	</select>
+	<!-- -->
+	<select id="getCount" resultType="Integer" parameterType="java.util.HashMap">
+		select
+		count(0)
+		<include refid="clausePage" />
+	</select>
+
+	<resultMap id="seriesDataMap" type="CaseInfoInSeries">
+		<result property="caseId" column="case_id" />
+		<association property="entrustInfo" column="case_id" javaType="EntrustBaseInfo">
+			<result property="provinceCode" column="province_code" />
+			<result property="cityCode" column="city_code" />
+		</association>
+		<association property="caseInfo" column="case_id" javaType="EntrustCaseInfo">
+			<id property="id" column="case_id" />
+			<result property="entrustNo" column="entrust_no" />
+			<result property="caseNo" column="case_no" />
+			<result property="caseName" column="case_name" />
+			<result property="caseType" column="case_type" />
+		</association>
+		<collection property="clueAlipays" ofType="SeriesCaseAlipay" select="com.hisign.publicsafety.mapper.series.SeriesAlipayMapper.queryAll" javaType="ArrayList" column="case_id">
+		</collection>
+		<collection property="clueTelephones" ofType="SeriesCaseTelephone" select="com.hisign.publicsafety.mapper.series.SeriesTelephoneMapper.queryAll" javaType="ArrayList" column="case_id">
+		</collection>
+		<collection property="clueCertificates" ofType="SeriesCaseCertificate" select="com.hisign.publicsafety.mapper.series.SeriesCertificateMapper.queryAll" javaType="ArrayList" column="case_id" />
+		<collection property="clueBankcards" ofType="SeriesCaseBankcard" select="com.hisign.publicsafety.mapper.series.SeriesBankcardMapper.queryAll" javaType="ArrayList" column="case_id" />
+	</resultMap>
+
+</mapper>

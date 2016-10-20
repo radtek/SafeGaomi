@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hisign.publicsafety.mapper.ali.AliRegistMapper">
+
+	<!-- 以下与实体类的中字段一致 -->
+	<sql id="selectId">
+		id,
+		entrust_no,
+		iw_user_id,
+		real_name,
+		gender,
+		cert_no,
+		cert_type,
+		firm_name,
+		login_email,
+		login_mobile,
+		inst_id,
+		inst_account_no,
+		balance,
+		create_user,
+		create_date,
+		nick,
+		mobile,
+		alipay_id,
+		register_time,
+		bind_email,
+		last_login
+	</sql>
+
+	<sql id="insertId">
+		#{id},#{entrustNo},#{iwUserId},#{realName},#{gender},#{certNo},#{certType},#{firmName},#{loginEmail},#{loginMobile},#{instId},#{instAccountNo},#{balance},#{createUser},#{createDate},#{nick},#{mobile},#{alipayId},#{registerTime},#{bindEmail},#{lastLogin}
+	</sql>
+
+	<sql id="insertBatchId">
+		#{item.id},#{item.entrustNo},#{item.iwUserId},#{item.realName},#{item.gender},#{item.certNo},#{item.certType},#{item.firmName},#{item.loginEmail},#{item.loginMobile},#{item.instId},#{item.instAccountNo},#{item.balance},#{item.createUser},#{item.createDate},#{item.nick},#{item.mobile},#{item.alipayId},#{item.registerTime},#{item.bindEmail},#{item.lastLogin}
+	</sql>
+
+	<sql id="updateId">
+		id=#{id},entrust_no=#{entrustNo},iw_user_id=#{iwUserId},real_name=#{realName},gender=#{gender},cert_no=#{certNo},cert_type=#{certType},firm_name=#{firmName},login_email=#{loginEmail},login_mobile=#{loginMobile},inst_id=#{instId},inst_account_no=#{instAccountNo},balance=#{balance},create_user=#{createUser},create_date=#{createDate},nick=#{nick},mobile=#{mobile},alipay_id=#{alipayId},register_time=#{registerTime},bind_email=#{bindEmail},last_login=#{lastLogin}
+	</sql>
+
+	<resultMap type="AliRegisterInfo" id="aliRegisterInfoMap">
+		<result property="id" column="id" />
+		<result property="entrustNo" column="entrust_no" />
+		<result property="iwUserId" column="iw_user_id" />
+		<result property="realName" column="real_name" />
+		<result property="gender" column="gender" />
+		<result property="certNo" column="cert_no" />
+		<result property="certType" column="cert_type" />
+		<result property="firmName" column="firm_name" />
+		<result property="loginEmail" column="login_email" />
+		<result property="loginMobile" column="login_mobile" />
+		<result property="instId" column="inst_id" />
+		<result property="instAccountNo" column="inst_account_no" />
+		<result property="balance" column="balance" />
+		<result property="createUser" column="create_user" />
+		<result property="createDate" column="create_date" />
+		<result property="nick" column="nick" />
+		<result property="mobile" column="mobile" />
+		<result property="alipayId" column="alipay_id" />
+		<result property="registerTime" column="register_time" />
+		<result property="bindEmail" column="bind_email" />
+		<result property="lastLogin" column="last_login" />
+	</resultMap>
+
+</mapper>

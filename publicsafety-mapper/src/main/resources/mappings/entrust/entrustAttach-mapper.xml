@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hisign.publicsafety.mapper.entrust.EntrustAttachMapper">
+
+	<!--  -->
+	<select id="queryAll" resultMap="entrusAttachmentMap" parameterType="EntrusAttachment">
+		select
+		<include refid="selectId" />
+		from entrus_attachment
+		<where>
+			delete_flag!=<include refid="deleteFlag" />
+			<if test="entrustNo != null and entrustNo != ''">
+				and entrust_no = #{entrustNo}
+			</if>
+		</where>
+	</select>
+	<!-- 
+	<select id="queryContent" resultType="String" parameterType="EntrusAttachment">
+		select file_content
+		from entrus_attachment
+		<where>
+			delete_flag!=<include refid="deleteFlag" />
+			and entrust_no = #{entrustNo}
+			and file_name = #{fileName}
+		</where>
+	</select> -->
+	<select id="getById" parameterType="String" resultMap="entrusAttachmentMap">
+		select
+		<include refid="selectId" />
+		from entrus_attachment where id=#{id}
+	</select>
+	<!--
+	<select id="queryCount" resultType="Integer" parameterType="EntrusAttachment">
+		select count(0)
+		from entrus_attachment
+		<where>
+			delete_flag!=<include refid="deleteFlag" />
+			<if test="entrustNo != null and entrustNo != ''">
+				and entrust_no = #{entrustNo}
+			</if>
+		</where>
+	</select>  -->
+	
+
+	<!-- 增加信息
+	<insert id="add" parameterType="EntrusAttachment">
+		insert into entrus_attachment (
+		<include refid="insertIdCol" />
+		)
+		values (
+			<include refid="insertId" />
+		)
+	</insert> -->
+	<!-- 增加信息 -->
+	<insert id="addBatch" parameterType="java.util.List">
+		insert into entrus_attachment (
+		<include refid="insertIdCol" />
+		)
+		values 
+		<foreach collection="list" item="item" index="index" separator="," >  
+	        (
+				<include refid="insertBatchId" />
+			)  
+	    </foreach>  
+	</insert>
+<!--
+	<delete id="delete" parameterType="String">
+		update entrus_attachment 
+		set delete_flag=<include refid="deleteFlag" /> 
+		where entrust_no=#{entrustNo}
+	</delete>  -->
+	<delete id="delete" parameterType="String">
+		delete from entrus_attachment 
+		where entrust_no=#{entrustNo}
+	</delete>
+
+	
+	
+</mapper>

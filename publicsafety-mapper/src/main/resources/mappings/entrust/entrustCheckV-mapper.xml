@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hisign.publicsafety.mapper.entrust.EntrustCheckMapper">
+
+	<!-- 以下与实体类的中字段一致 -->
+	<sql id="selectId">
+		id,
+		entrust_no,
+		check_key,
+		check_user,
+		check_date,
+		check_ispass,
+		check_desdc,
+		is_exec,
+		exec_no,
+		rev1,
+		rev2,
+		rev3,
+		rev4,
+		rev5,
+		rev6,
+		rev7
+	</sql>
+
+	<sql id="insertId">
+		#{id},#{entrustNo},#{checkKey},#{checkUser},#{checkDate},#{checkIspass},#{checkDesdc},#{isExec},#{execNo},#{rev1},#{rev2},#{rev3},#{rev4},#{rev5},#{rev6},#{rev7}
+	</sql>
+
+	<sql id="insertBatchId">
+		#{item.id},#{item.entrustNo},#{item.checkKey},#{item.checkUser},#{item.checkDate},#{item.checkIspass},#{item.checkDesdc},#{item.isExec},#{item.execNo},#{item.rev1},#{item.rev2},#{item.rev3},#{item.rev4},#{item.rev5},#{item.rev6},#{item.rev7}
+	</sql>
+
+	<sql id="updateId">
+		id=#{id},entrust_no=#{entrustNo},check_key=#{checkKey},check_user=#{checkUser},check_date=#{checkDate},check_ispass=#{checkIspass},check_desdc=#{checkDesdc},is_exec=#{isExec},exec_no=#{execNo},rev1=#{rev1},rev2=#{rev2},rev3=#{rev3},rev4=#{rev4},rev5=#{rev5},rev6=#{rev6},rev7=#{rev7}
+	</sql>
+
+	<resultMap type="EntrustCheckList" id="entrustCheckListMap">
+		<result property="id" column="id" />
+		<result property="entrustNo" column="entrust_no" />
+		<result property="checkKey" column="check_key" />
+		<result property="checkUser" column="check_user" />
+		<result property="checkDate" column="check_date" />
+		<result property="checkIspass" column="check_ispass" />
+		<result property="checkDesdc" column="check_desdc" />
+		<result property="isExec" column="is_exec" />
+		<result property="execNo" column="exec_no" />
+		<result property="rev1" column="rev1" />
+		<result property="rev2" column="rev2" />
+		<result property="rev3" column="rev3" />
+		<result property="rev4" column="rev4" />
+		<result property="rev5" column="rev5" />
+		<result property="rev6" column="rev6" />
+		<result property="rev7" column="rev7" />
+	</resultMap>
+
+</mapper>

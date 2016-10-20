@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hisign.publicsafety.mapper.ali.AliAccountMapper">
+	
+	
+	<!--  -->
+	<select id="queryAll" resultMap="aliAccountDetailMap" parameterType="AliAccountDetail">
+		select
+		<include refid="selectId" />
+		from ali_account_detail
+		<where>
+			<if test="entrustNo != null and entrustNo != ''">
+				entrust_no = #{entrustNo}
+			</if>
+		</where>
+	</select>
+	
+	<sql id="clausePage">
+		from ali_account_detail
+		<where>
+			<if test="para.entrustNo != null and para.entrustNo != ''">
+				entrust_no = #{para.entrustNo}
+			</if>
+		</where>
+	</sql>
+	
+	<!-- 分页查询阿里账户明细 -->
+	<select id="query" resultMap="aliAccountDetailMap" parameterType="java.util.HashMap">
+		select
+		<include refid="selectId" />
+		<include refid="clausePage" />
+			<if test="start != null or size != null">
+				limit #{start},#{size}
+			</if>
+	</select>
+	<!--  -->
+	<select id="getCount" resultType="Integer" parameterType="java.util.HashMap">
+		select
+			count(0)
+		<include refid="clausePage" />
+	</select>
+	
+
+	<!-- 增加信息 -->
+	<insert id="add" parameterType="AliAccountDetail">
+		insert into ali_account_detail (
+		<include refid="selectId" />
+		)
+		values (
+			<include refid="insertId" />
+		)
+	</insert>
+	<!-- 批量增加信息 -->
+	<insert id="addBatch" parameterType="java.util.List">
+		insert into ali_account_detail (
+		<include refid="selectId" />
+		)
+		values 
+		<foreach collection="list" item="item" index="index" separator="," >  
+	        (
+				<include refid="insertBatchId" />
+			)  
+	    </foreach>  
+	</insert>
+<!--
+	<delete id="delete" parameterType="String">
+		delete from ali_account_detail where
+		entrust_no=#{entrustNo}
+	</delete>
+
+	<select id="getById" parameterType="String" resultType="AliAccountDetail">
+		select
+		<include refid="selectId" />
+		from ali_account_detail where entrust_no=#{entrustNo} limit 1
+	</select>
+-->
+	
+</mapper>

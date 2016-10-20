@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hisign.publicsafety.mapper.ccp.BlackPlatInfoMapper">
+	
+	<!-- 以下与实体类的中字段一致 -->
+	<sql id="selectId">
+		id,
+		platNum,
+		offerPho,
+		offerName,
+		informPho,
+		unitCode,
+		(select dicName from dic where dic.dicKey = black_platnum.unitCode) as unitName,
+		remark,
+		createTime,
+		status
+	</sql>
+	
+	<!--resultType="BlackPlatnum" 每返回一条结果封装到BlackPlatnum里 -->
+	<select id="queryAll" resultType="BlackPlatnum" parameterType="BlackPlatnum">
+		select
+		<include refid="selectId" />
+		from black_platnumnum
+	</select>
+
+	<sql id="clausePage">
+		from black_platnum
+		<where>
+			1 = 1
+			<if test="t.platNum != null and t.platNum != ''">
+				and platNum like CONCAT('%',#{t.platNum},'%')
+			</if>
+			<if test="t.offerName != null and t.offerName != ''">
+				and offerName like CONCAT('%',#{t.offerName},'%')
+			</if>
+			<if test="t.unitCode != null and t.unitCode != ''">
+				and (unitCode in 
+						(select d.dicKey 
+							from dic d 
+							where d.dicTypeId = 10 
+								and d.dicParentKey = #{t.unitCode} 
+								or d.dicKey = #{t.unitCode})
+					)
+			</if>
+			<if test="t.createBegDatetime != null and t.createBegDatetime != ''">
+				and createTime &gt;= str_to_date(#{t.createBegDatetime}, '%Y-%m-%d %H:%i')
+			</if>
+			<if test="t.createEndDatetime != null and t.createEndDatetime != ''">
+				and createTime &lt;= str_to_date(#{t.createEndDatetime}, '%Y-%m-%d %H:%i')
+			</if>
+		</where>
+	</sql>
+	
+	<!--resultType="BlackPlatnum" 每返回一条结果封装到BlackPlatnum里 -->
+	<select id="query" resultType="BlackPlatnum" parameterType="java.util.HashMap">
+		select
+		<include refid="selectId" />
+		<include refid="clausePage" />
+			<if test="start != null or size != null">
+				limit #{start},#{size}
+			</if>
+	</select>
+	<!--  -->
+	<select id="getCount" resultType="Integer" parameterType="java.util.HashMap">
+		select
+			count(0)
+		<include refid="clausePage" />
+	</select>	
+
+	<!-- 增加车牌黑名单 -->
+	<insert id="addBlackPlatnum" parameterType="BlackPlatnum">
+		insert into black_platnum (
+		id,
+		platNum,
+		offerPho,
+		offerName,
+		informPho,
+		unitCode,
+		remark,
+		createTime,
+		status
+		)
+		values (
+		#{id},
+		#{platNum},
+		#{offerPho}, 
+		#{offerName},
+		#{informPho},
+		#{unitCode},
+		#{remark},
+		#{createTime},
+		#{status}
+		)
+	</insert>
+
+	<update id="update" parameterType="BlackPlatnum">
+		update black_platnum
+		<set>
+			<if test="status != null and status != ''">
+				status=#{status}
+			</if>
+		</set>
+		where id=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="String">
+		delete from black_platnum where
+		id=#{id}
+	</delete>
+
+	<select id="getById" parameterType="String" resultType="BlackPlatnum">
+		select
+		<include refid="selectId" />
+		from black_platnum where id=#{id}
+	</select>	
+	
+	<select id="findByPlatnum" parameterType="String"
+		resultType="BlackPlatnum">
+		select
+		<include refid="selectId" />
+		from black_platnum where platNum=#{platNum}
+	</select>
+</mapper>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hisign.publicsafety.mapper.LogMapper">
+	<!-- 以下与实体类的中字段一致 -->
+	<sql id="selectId">
+		id,
+		username,
+		module,
+		action,
+		actionTime,
+		userIP,
+		operTime,
+		actionDesc,
+		rev1
+	</sql>
+	<sql id="clausePage">
+		from log
+		<where>
+		1=1
+		<if test="t.username != null and t.username != ''">
+				and username like CONCAT('%',#{t.username},'%')
+			</if>
+			<if test="t.rev1 != null and t.rev1 != ''">
+				and rev1 like CONCAT('%',#{t.rev1},'%')
+			</if>
+			<if test="t.userIP != null and t.userIP != ''">
+				and userIP like CONCAT(#{t.userIP},'%')
+			</if>
+			<if test="t.operTimeBeg != null and t.operTimeBeg != ''">
+				and operTime &gt;= str_to_date(#{t.operTimeBeg}, '%Y-%m-%d %H:%i')
+			</if>
+			<if test="t.operTimeEnd != null and t.operTimeEnd != ''">
+				and operTime &lt;= str_to_date(#{t.operTimeEnd}, '%Y-%m-%d %H:%i')
+			</if>
+		</where>
+	</sql>
+	
+	<!--resultType="Log" 每返回一条结果封装到Log里 -->
+	<select id="query" resultType="Log" parameterType="Log">
+		select
+		<include refid="selectId" />
+		<include refid="clausePage" />
+		order by operTime desc
+			<if test="start != null or size != null">
+				limit #{start},#{size}
+			</if>
+	</select>
+	<!--  -->
+	<select id="getCount" resultType="Integer" parameterType="java.util.HashMap">
+		select
+			count(0)
+		<include refid="clausePage" />
+	</select>
+	<select id="queryAll" resultType="Log">
+		select
+		<include refid="selectId" />
+		from log
+		order by operTime desc
+	</select>
+	<!-- 增加用户 -->
+	<insert id="add" parameterType="Log">
+		insert into log (
+			username,
+			module,
+			action,
+			actionTime,
+			userIP,
+			operTime,
+			rev1
+		)
+		values(
+			#{username},
+			#{module},
+			#{action},
+			#{actionTime},
+			#{userIP},
+			#{operTime},
+			#{rev1}
+		)
+	</insert>
+
+	<delete id="delete" parameterType="String">
+		delete from log where
+		id=#{id}
+	</delete>
+	<select id="getById" parameterType="String" resultType="Log">
+		select
+		<include refid="selectId" />
+		from log where id=#{id}
+	</select>
+	<update id="update" parameterType="Log">
+		update log
+		<set>
+		username=#{username},
+		module=#{module},
+		action=#{action},
+		userIP=#{userIP},
+		</set>
+		where id=#{id}
+	</update>
+</mapper>

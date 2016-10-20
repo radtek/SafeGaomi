@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hisign.publicsafety.mapper.ali.AliLoginMapper">
+
+	<!-- 以下与实体类的中字段一致 -->
+	<sql id="selectId">
+		id,
+		entrust_no,
+		login_id,
+		user_id,
+		name,
+		client_ip,
+		action_dt,
+		create_user,
+		create_date
+	</sql>
+
+	<sql id="insertId">
+		#{id},#{entrustNo},#{loginId},#{userId},#{name},#{clientIp},#{actionDt},#{createUser},#{createDate}
+	</sql>
+
+	<sql id="insertBatchId">
+		#{item.id},#{item.entrustNo},#{item.loginId},#{item.userId},#{item.name},#{item.clientIp},#{item.actionDt},#{item.createUser},#{item.createDate}
+	</sql>
+
+	<sql id="updateId">
+		id=#{id},entrust_no=#{entrustNo},login_id=#{loginId},user_id=#{userId},name=#{name},client_ip=#{clientIp},action_dt=#{actionDt},create_user=#{createUser},create_date=#{createDate}
+	</sql>
+
+	<resultMap type="AliLoginHistory" id="aliLoginHistoryMap">
+		<result property="id" column="id" />
+		<result property="entrustNo" column="entrust_no" />
+		<result property="loginId" column="login_id" />
+		<result property="userId" column="user_id" />
+		<result property="name" column="name" />
+		<result property="clientIp" column="client_ip" />
+		<result property="actionDt" column="action_dt" />
+		<result property="createUser" column="create_user" />
+		<result property="createDate" column="create_date" />
+	</resultMap>
+
+</mapper>

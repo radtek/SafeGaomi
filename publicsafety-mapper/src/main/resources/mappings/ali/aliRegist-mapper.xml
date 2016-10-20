@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hisign.publicsafety.mapper.ali.AliRegistMapper">
+	
+	
+	<!--  -->
+	<select id="queryAll" resultMap="aliRegisterInfoMap" parameterType="AliRegisterInfo">
+		select
+		<include refid="selectId" />
+		from ali_register_info
+		<where>
+			<if test="entrustNo != null and entrustNo != ''">
+				entrust_no = #{entrustNo}
+			</if>
+		</where>
+	</select>
+	
+	<sql id="clausePage">
+		from ali_register_info
+		<where>
+			<if test="para.entrustNo != null and para.entrustNo != ''">
+				entrust_no = #{para.entrustNo}
+			</if>
+		</where>
+	</sql>
+	
+	<!-- 分页查询阿里注册信息 -->
+	<select id="query" resultMap="aliRegisterInfoMap" parameterType="java.util.HashMap">
+		select
+		<include refid="selectId" />
+		<include refid="clausePage" />
+			<if test="start != null or size != null">
+				limit #{start},#{size}
+			</if>
+	</select>
+	<!--  -->
+	<select id="getCount" resultType="Integer" parameterType="java.util.HashMap">
+		select
+			count(0)
+		<include refid="clausePage" />
+	</select>
+
+	<!-- 增加信息 -->
+	<insert id="add" parameterType="AliRegisterInfo">
+		insert into ali_register_info (
+		<include refid="selectId" />
+		)
+		values (
+			<include refid="insertId" />
+		)
+	</insert>
+	<!-- 批量增加注册信息 -->
+	<insert id="addBatch" parameterType="java.util.List">
+		insert into ali_register_info (
+		<include refid="selectId" />
+		)
+		values 
+		<foreach collection="list" item="item" index="index" separator="," >  
+	        (
+				<include refid="insertBatchId" />
+			)  
+	    </foreach>  
+	</insert>
+<!--
+	<delete id="delete" parameterType="String">
+		delete from ali_register_info where
+		entrust_no=#{entrustNo}
+	</delete>
+
+	<select id="getById" parameterType="String" resultType="AliRegisterInfo">
+		select
+		<include refid="selectId" />
+		from ali_register_info where entrust_no=#{entrustNo} limit 1
+	</select>
+-->
+	
+</mapper>

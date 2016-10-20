@@ -1,0 +1,88 @@
+{
+    "apiName": "",
+    "data": {
+        "accountLog": [
+            {
+                "balance": "",
+                "otherAccount": "",
+                "showName": "",
+                "subTransCodeDesc": "",
+                "tradeArea": "",
+                "transAccount": "",
+                "transAmountC": "",
+                "transAmountD": "",
+                "transDate": null,
+                "transDt": null,
+                "transMemo": "",
+                "transOutOrderNo": ""
+            }
+        ],
+        "entrustNo": "",
+        "loginLog": [
+            {
+                "actionDt": null,
+                "clientIp": "用户IP",
+                "loginId": "登录名",
+                "name": "用户名字",
+                "userId": ""
+            }
+        ],
+        "registInfo": [
+            {
+                "alipayId": "支付宝id",
+                "balance": "",
+                "bindEmail": "绑定邮箱",
+                "certNo": "",
+                "certType": "",
+                "firmName": "",
+                "gender": "",
+                "instAccountNo": "",
+                "instId": "",
+                "iwUserId": "",
+                "lastLogin": null,
+                "loginEmail": "",
+                "loginMobile": "",
+                "mobile": "绑定手机",
+                "nick": "会员名",
+                "realName": "真实姓名",
+                "registerTime": null
+            }
+        ],
+        "tradeLog": [
+            {
+                "buyerInfo": "",
+                "gmtModified": null,
+                "goodsTitle": "",
+                "outTradeNo": "",
+                "partnerId": "",
+                "receiveAddress": "",
+                "sellerInfo": "",
+                "tradeBuyerId": "",
+                "tradeCreateDate": null,
+                "tradeFromDesc": "",
+                "tradeNo": "",
+                "tradeReceivePayDate": null,
+                "tradeSellerId": "",
+                "tradeStatusDesc": "",
+                "tradeTotalAmt": "",
+                "tradeTypeDesc": ""
+            }
+        ],
+        "transferLog": [
+            {
+                "productName": "",
+                "receiverInst": "",
+                "receiverUserid": "",
+                "senderUserid": "",
+                "tradeArea": "",
+                "transAmount": "",
+                "transSuccDate": null,
+                "transferNo": "",
+                "withdrawNo": ""
+            }
+        ]
+    },
+    "reqSn": "",
+    "reqTime": null,
+    "sysCode": ""
+}

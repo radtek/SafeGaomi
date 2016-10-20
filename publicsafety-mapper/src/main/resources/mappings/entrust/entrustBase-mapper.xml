@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hisign.publicsafety.mapper.entrust.EntrustBaseMapper">
+	
+	<sql id="deleteFlag">
+		'1'
+	</sql>
+	<!-- 以下与实体类的中字段一致 -->
+	<sql id="selectId">
+		(select dicName from dic d where d.dicKey = unit) unit_name,
+		<include refid="insertCol" />
+	</sql><!-- (select dicName from dic d where d.dicKey = unit)  -->
+	<sql id="insertCol">
+		id,
+		entrust_no,
+		entrust_ser,
+		entrust_number,
+		entrust_type,
+		province_code,
+		city_code,
+		unit,
+		person_name,
+		telephone,
+		title,
+		istake,
+		visitor_name,
+		visitor_telephone,
+		visitor_unit,
+		visitor_title,
+		case_stage,
+		is_reply,
+		memo,
+		create_user,
+		create_date,
+		update_user,
+		update_date,
+		delete_flag,
+		data_resource,
+		process_state,
+		rev1,
+		rev2,
+		rev3,
+		rev4,
+		rev5,
+		rev6,
+		rev7,
+		is_share_caseinfo,
+		is_share_queryresult
+	</sql>
+
+<resultMap type="EntrustBaseInfo" id="entrustBaseInfoMap">
+<result property="id" column="id" />
+<result property="entrustNo" column="entrust_no" />
+<result property="entrustSer" column="entrust_ser" />
+<result property="entrustNumber" column="entrust_number" />
+<result property="entrustType" column="entrust_type" />
+<result property="provinceCode" column="province_code" />
+<result property="cityCode" column="city_code" />
+<result property="unit" column="unit" />
+<result property="personName" column="person_name" />
+<result property="telephone" column="telephone" />
+<result property="title" column="title" />
+<result property="istake" column="istake" />
+<result property="visitorName" column="visitor_name" />
+<result property="visitorTelephone" column="visitor_telephone" />
+<result property="visitorUnit" column="visitor_unit" />
+<result property="visitorTitle" column="visitor_title" />
+<result property="caseStage" column="case_stage" />
+<result property="isReply" column="is_reply" />
+<result property="memo" column="memo" />
+<result property="createUser" column="create_user" />
+<result property="createDate" column="create_date" />
+<result property="updateUser" column="update_user" />
+<result property="updateDate" column="update_date" />
+<result property="deleteFlag" column="delete_flag" />
+<result property="dataResource" column="data_resource" />
+<result property="processState" column="process_state" />
+<result property="rev1" column="rev1" />
+<result property="rev2" column="rev2" />
+<result property="rev3" column="rev3" />
+<result property="rev4" column="rev4" />
+<result property="rev5" column="rev5" />
+<result property="rev6" column="rev6" />
+<result property="rev7" column="unit_name" />
+<result property="isShareCaseinfo" column="is_share_caseinfo" />
+<result property="isShareQueryresult" column="is_share_queryresult" />
+</resultMap>
+
+	<!--  -->
+	<select id="queryAll" resultMap="entrustBaseInfoMap" parameterType="EntrustBaseInfo">
+		select
+		<include refid="selectId" />
+		from entrust_base_info
+		<where>
+			delete_flag!=<include refid="deleteFlag" />
+			<if test="entrustNo != null and entrustNo != ''">
+				and entrust_no = #{entrustNo}
+			</if>
+		</where>
+	</select>
+	
+
+	<!-- 增加委托基本信息 -->
+	<insert id="add" parameterType="EntrustBaseInfo">
+		insert into `entrust_base_info` (
+		<include refid="insertCol" />
+		)
+		values (
+			#{id},
+#{entrustNo},
+#{entrustSer},
+#{entrustNumber},
+#{entrustType},
+#{provinceCode},
+#{cityCode},
+#{unit},
+#{personName},
+#{telephone},
+#{title},
+#{istake},
+#{visitorName},
+#{visitorTelephone},
+#{visitorUnit},
+#{visitorTitle},
+#{caseStage},
+#{isReply},
+#{memo},
+#{createUser},
+#{createDate},
+#{updateUser},
+#{updateDate},
+#{deleteFlag},
+#{dataResource},
+#{processState},
+#{rev1},
+#{rev2},
+#{rev3},
+#{rev4},
+#{rev5},
+#{rev6},
+#{rev7},
+#{isShareCaseinfo},
+#{isShareQueryresult}
+		)
+	</insert>
+
+	<delete id="delete" parameterType="String">
+		update entrust_base_info 
+		set delete_flag=<include refid="deleteFlag" /> 
+		where entrust_no=#{entrustNo}
+	</delete>
+
+	<select id="getById" parameterType="String" resultMap="entrustBaseInfoMap">
+		select
+		<include refid="selectId" />
+		from entrust_base_info where 
+			delete_flag!=<include refid="deleteFlag" />
+			and entrust_no=#{entrustNo}
+	</select>
+	
+	<select id="getLastByEntrustSer" parameterType="EntrustBaseInfo" resultMap="entrustBaseInfoMap">
+		select
+		<include refid="selectId" />
+		from entrust_base_info 
+		where entrust_ser=#{entrustSer}
+		 and create_user=#{createUser} 
+		 and delete_flag!=<include refid="deleteFlag" />
+		order by entrust_number desc limit 1
+	</select>
+
+	<update id="update" parameterType="EntrustBaseInfo">
+		update entrust_base_info
+		<set>
+			<if test="entrustSer != null and entrustSer != ''">
+				entrust_ser=#{entrustSer},
+			</if>
+			<if test="entrustNumber != null and entrustNumber != ''">
+				entrust_number=#{entrustNumber},
+			</if>
+			<if test="entrustType != null and entrustType != ''">
+				entrust_type=#{entrustType},
+			</if>
+			<if test="provinceCode != null and provinceCode != ''">
+				province_code=#{provinceCode},
+			</if>
+			<if test="cityCode != null and cityCode != ''">
+				city_code=#{cityCode},
+			</if>
+			<if test="unit != null and unit != ''">
+				unit=#{unit},
+			</if>
+			<if test="personName != null and personName != ''">
+				person_name=#{personName},
+			</if>
+			<if test="telephone != null and telephone != ''">
+				telephone=#{telephone},
+			</if>
+			<if test="title != null and title != ''">
+				title=#{title},
+			</if>
+			<if test="istake != null and istake != ''">
+				istake=#{istake},
+			</if>
+			<if test="visitorName != null and visitorName != ''">
+				visitor_name=#{visitorName},
+			</if>
+			<if test="visitorTelephone != null and visitorTelephone != ''">
+				visitor_telephone=#{visitorTelephone},
+			</if>
+			<if test="visitorUnit != null and visitorUnit != ''">
+				visitor_unit=#{visitorUnit},
+			</if>
+			<if test="visitorTitle != null and visitorTitle != ''">
+				visitor_title=#{visitorTitle},
+			</if>
+			<if test="caseStage != null and caseStage != ''">
+				case_stage=#{caseStage},
+			</if>
+			<if test="isReply != null and isReply != ''">
+				is_reply=#{isReply},
+			</if>
+			<if test="memo != null and memo != ''">
+				memo=#{memo},
+			</if>
+			<if test="createUser != null and createUser != ''">
+				create_user=#{createUser},
+			</if>
+			<if test="createDate != null and createDate != ''">
+				create_date=#{createDate},
+			</if>
+			<if test="updateUser != null and updateUser != ''">
+				update_user=#{updateUser},
+			</if>
+			<if test="deleteFlag != null and deleteFlag != ''">
+				delete_flag=#{deleteFlag},
+			</if>
+			<if test="dataResource != null and dataResource != ''">
+				data_resource=#{dataResource},
+			</if>
+			<if test="processState != null and processState != ''">
+				process_state=#{processState},
+			</if>
+			<if test="isShareCaseinfo != null and isShareCaseinfo != ''">
+				is_share_caseinfo=#{isShareCaseinfo},
+			</if>
+			<if test="isShareQueryresult != null and isShareQueryresult != ''">
+				is_share_queryresult=#{isShareQueryresult},
+			</if>
+			update_date=#{updateDate}
+		</set>
+		where entrust_no=#{entrustNo} and delete_flag!=<include refid="deleteFlag" />
+	</update>
+
+	<!--  -->
+	<select id="queryCount" resultType="Integer" parameterType="EntrustBaseInfo">
+		select
+			count(0)
+		from entrust_base_info
+		<where>
+			delete_flag!=<include refid="deleteFlag" />
+			<if test="createUser != null and createUser != ''">
+				and create_user = #{createUser}
+			</if>
+			<if test="createDate != null and createDate != ''">
+				and create_date &lt; #{createDate}
+			</if>
+			<if test="processState != null and processState != ''">
+				and process_state = #{processState}
+			</if>
+		</where>
+	</select>
+</mapper>

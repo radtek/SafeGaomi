@@ -1,0 +1,39 @@
+/* here you can put your own css to customize and override the theme */
+.list-group-item {
+    padding: 5px 15px !important;
+    border: none !important;
+}
+.list-group-item:first-child {
+	border-top-left-radius: 0px !important;
+    border-top-right-radius: 0px !important;
+}
+.thumbnail, .image-list {
+    display: block !important;
+    padding: 2px !important;
+    margin: 0 !important;
+    line-height: 1.42857143;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 3px !important;
+    -webkit-transition: all .2s ease-in-out;
+    -o-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+	position: relative;
+}
+.image-list:hover {
+	border: 1px solid #428bca;
+}
+.thumbnail  .thumbnail-count {
+	position: absolute;
+    right: 1px;
+    bottom: 1px;	
+}
+.thumbnail img{
+	height: 80px;
+    width: 80px;
+    display: block;
+}
+.thumbnail-extra {
+	display:none;
+}
+    

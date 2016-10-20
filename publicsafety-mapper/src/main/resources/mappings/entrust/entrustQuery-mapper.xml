@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hisign.publicsafety.mapper.entrust.EntrustQueryMapper">
+	
+
+	<!--  -->
+	<select id="queryAll" resultMap="entrusInvestigationInfoMap" parameterType="EntrusInvestigationInfo">
+		select
+		<include refid="selectId" />
+		from entrus_investigation_info
+		<where>
+			delete_flag!=<include refid="deleteFlag" />
+			<if test="entrustNo != null and entrustNo != ''">
+				and entrust_no = #{entrustNo}
+			</if>
+		</where>
+	</select>
+
+		
+
+	<!-- 增加委托基本信息
+	<insert id="add" parameterType="EntrusInvestigationInfo">
+		insert into `entrus_investigation_info` (
+		<include refid="selectId" />
+		)
+		values (
+			<include refid="insertId" />
+		)
+	</insert> -->
+	<!-- 增加查询结果字段信息 -->
+	<insert id="addBatch" parameterType="java.util.List">
+		insert into `entrus_investigation_info` (
+		<include refid="selectId" />
+		)
+		values 
+		<foreach collection="list" item="item" index="index" separator="," >  
+	        (
+				<include refid="insertBatchId" />
+			)  
+	    </foreach>  
+	</insert>
+<!--
+	<delete id="delete" parameterType="String">
+		update entrus_investigation_info 
+		set delete_flag=<include refid="deleteFlag" /> 
+		where entrust_no=#{entrustNo}
+	</delete>  -->
+	<delete id="delete" parameterType="String">
+		delete from entrus_investigation_info 
+		where entrust_no=#{entrustNo}
+	</delete>
+<!--
+	<select id="getById" parameterType="String" resultMap="entrusInvestigationInfoMap">
+		select
+		<include refid="selectId" />
+		from entrus_investigation_info where 
+			delete_flag!=<include refid="deleteFlag" />
+			and entrust_no=#{entrustNo} limit 1
+	</select>  -->
+
+<!--
+	<update id="update" parameterType="EntrusInvestigationInfo">
+		update entrus_investigation_info
+		<set>
+			<include refid="updateId" />	
+		</set>
+		where entrust_no=#{entrustNo} and delete_flag!=<include refid="deleteFlag" />
+	</update>
+  -->
+	
+</mapper>

@@ -1,0 +1,2 @@
+ALTER TABLE `entrus_attachment`
+MODIFY COLUMN `file_content`  mediumblob;

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hisign.publicsafety.mapper.ccp.ClueProviderInfoMapper">
+	
+	<!-- 通用 -->
+	<sql id="selectId">
+		id,
+		true_name as trueName,
+		id_num as idCardNum,
+		phone_num as phoneNum,
+		score,
+		create_date as createDate,
+		update_date as updateDate,
+		update_user as updateUser,
+		open_flag as openFlag,
+		rev1 as unitCode,
+		(select dicName from dic where dic.dicKey = ccp_clue_provider_info.rev1) as unitName
+	</sql>
+	
+	<sql id="clausePage">
+		from ccp_clue_provider_info 
+		<where>
+			1 = 1
+			<if test="t.trueName != null and t.trueName != ''">
+				and true_name like CONCAT('%',#{t.trueName},'%')
+			</if>
+			<if test="t.unitCode != null and t.unitCode != ''">
+				and (rev1 in 
+						(select d.dicKey 
+							from dic d 
+							where d.dicTypeId = 10 
+								and d.dicParentKey = #{t.unitCode} 
+								or d.dicKey = #{t.unitCode})
+					)
+			</if>
+			<if test="t.phoneNum != null and t.phoneNum != ''">
+				and phone_num like CONCAT('%',#{t.phoneNum},'%')
+			</if>
+			<if test="t.idCardNum != null and t.idCardNum != ''">
+				and id_num like CONCAT('%',#{t.idCardNum},'%')
+			</if>
+			<if test="t.createBegDatetime != null and t.createBegDatetime != ''">
+				and create_date &gt;= str_to_date(#{t.createBegDatetime}, '%Y-%m-%d %H:%i')
+			</if>
+			<if test="t.createEndDatetime != null and t.createEndDatetime != ''">
+				and create_date &lt;= str_to_date(#{t.createEndDatetime}, '%Y-%m-%d %H:%i')
+			</if>
+		</where>
+	</sql>
+	
+	<select id="query"
+		resultType="ClueProviderInfo" 
+		parameterType="java.util.HashMap">
+		select
+		<include refid="selectId" />
+		<include refid="clausePage" />
+			<if test="start != null or size != null">
+				limit #{start},#{size}
+			</if>
+	</select>
+	
+	<select id="getCount" 
+		resultType="Integer" 
+		parameterType="java.util.HashMap">
+		select
+			count(0)
+		<include refid="clausePage" />
+	</select>
+	
+	<select id="getById"
+		parameterType="String" 
+		resultType="ClueProviderInfo">
+		select
+		<include refid="selectId" />,
+		id_card_photo_front as idCardPhotoFrontStr,
+		id_card_photo_back as idCardPhotoBackStr
+		from ccp_clue_provider_info where id=#{id}
+	</select>
+	
+	<delete id="delete" parameterType="String">
+		delete from ccp_clue_provider_info where
+		id=#{id}
+	</delete>
+	
+	<update id="update" parameterType="ClueProviderInfo">
+		update ccp_clue_provider_info
+		<set>
+			<if test="trueName != null and trueName != ''">
+				true_name=#{trueName},
+			</if>
+			<if test="idCardNum != null and idCardNum != ''">
+				id_num=#{idCardNum},
+			</if>
+			<if test="score != null and score != ''">
+				score=#{score},
+			</if>
+			<if test="openFlag != null and openFlag != ''">
+				open_flag=#{openFlag},
+			</if>
+			<if test="updateUser != null and updateUser != ''">
+				update_user=#{updateUser},
+			</if>
+			<if test="idCardPhotoFrontStr != null and idCardPhotoFrontStr != ''">
+				id_card_photo_front=#{idCardPhotoFrontStr},
+			</if>
+			<if test="idCardPhotoBackStr != null and idCardPhotoBackStr != ''">
+				id_card_photo_back=#{idCardPhotoBackStr},
+			</if>
+			<if test="unitCode != null and unitCode != ''">
+				rev1=#{unitCode},
+			</if>
+			<if test="passWord != null and passWord != ''">
+				rev2=#{passWord},
+			</if>
+			update_date=#{updateDate}
+		</set>
+		where id=#{id}
+	</update>
+	
+	<!-- 手机用户注册 -->
+	<insert id="add" parameterType="ClueProviderInfo">
+		insert into ccp_clue_provider_info (
+			id,
+			true_name,
+			id_num,
+			phone_num,
+			create_date,
+			score,
+			open_flag,
+			id_card_photo_front,
+			id_card_photo_back,
+			rev2
+		)
+		values (
+			#{id},
+			#{trueName},
+			#{idCardNum},
+			#{phoneNum},
+			#{createDate},
+			#{score},
+			#{openFlag},
+			#{idCardPhotoFrontStr},
+			#{idCardPhotoBackStr},
+			#{passWord}
+		)
+	</insert>
+	
+	<select id="findByPhoneNum"
+		parameterType="String"
+		resultType="ClueProviderInfo">
+		select
+		<include refid="selectId" />,
+		head_picture as headPicture,
+		rev2 as passWord
+		from ccp_clue_provider_info where phone_num=#{value}
+	</select>
+	
+	<update id="setHeadPictureById"
+		parameterType="ClueProviderInfo">
+		update ccp_clue_provider_info
+		set
+			head_picture=#{headPicture}
+		where id=#{id}
+	</update>
+</mapper>

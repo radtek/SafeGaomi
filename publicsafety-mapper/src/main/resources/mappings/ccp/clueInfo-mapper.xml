@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hisign.publicsafety.mapper.ccp.ClueInfoMapper">
+
+	<!-- 通用 -->
+	<sql id="selectId">
+		id,
+		collect_no as collectNo,
+		collect_place as collectPlace,
+		collect_date as collectDate,
+		provider_id as providerId,
+		(select c.true_name from ccp_clue_provider_info c where c.id =
+		provider_id) as providerName,
+		ifnull(plat_num, '') as platNum,
+		lon,
+		lat,
+		remark,
+		create_date as createDate,
+		rev1 as unitCode,
+		(select dicName from dic where dic.dicKey = ccp_clueInfo.rev1) as unitName
+	</sql>
+
+	<sql id="clausePage">
+		from ccp_clueInfo 
+		<where>
+			1 = 1
+			<if test="t.platNum != null and t.platNum != ''">
+				and plat_num like CONCAT('%',#{t.platNum},'%')
+			</if>
+			<if test="t.unitCode != null and t.unitCode != ''">
+				and (rev1 in 
+						(select d.dicKey 
+							from dic d 
+							where d.dicTypeId = 10 
+								and d.dicParentKey = #{t.unitCode} 
+								or d.dicKey = #{t.unitCode})
+					)
+			</if>
+			<if test="t.collectPlace != null and t.collectPlace != ''">
+				and collect_place like CONCAT('%',#{t.collectPlace},'%')
+			</if>
+			<if test="t.collectBegDatetime != null and t.collectBegDatetime != ''">
+				and collect_date &gt;= str_to_date(#{t.collectBegDatetime}, '%Y-%m-%d %H:%i')
+			</if>
+			<if test="t.collectEndDatetime != null and t.collectEndDatetime != ''">
+				and collect_date &lt;= str_to_date(#{t.collectEndDatetime}, '%Y-%m-%d %H:%i')
+			</if>
+			<if test="t.createBegDatetime != null and t.createBegDatetime != ''">
+				and create_date &gt;= str_to_date(#{t.createBegDatetime}, '%Y-%m-%d %H:%i')
+			</if>
+			<if test="t.createEndDatetime != null and t.createEndDatetime != ''">
+				and create_date &lt;= str_to_date(#{t.createEndDatetime}, '%Y-%m-%d %H:%i')
+			</if>
+			<if test="t.proViderPhoneNum != null and t.proViderPhoneNum != ''">
+				and exists (select 1 from ccp_clue_provider_info a where a.id = provider_id 
+								and a.phone_num like CONCAT('%',#{t.proViderPhoneNum},'%') )
+			</if>
+		</where>
+		order by create_date desc
+	</sql>
+	
+	<insert id="addClueInfo" parameterType="com.hisign.publicsafety.entity.ccp.ClueInfo">
+		insert into `ccp_clueInfo` (
+		  id,
+		  collect_no,
+		  collect_place,
+		  collect_date,
+		  provider_id,
+		  create_date,
+		  lon,
+		  lat,
+		  plat_num,
+		  remark,
+		  rev1,
+		  rev2,
+		  rev3
+		)
+		values (
+			#{id},
+			#{collectNo},
+			#{collectPlace},
+			#{collectDate},
+			#{providerId},
+			#{createDate},
+			#{lon},
+			#{lat},
+			#{platNum},
+			#{remark},
+			#{unitCode},
+			#{subTime},
+			#{photoName}
+		)
+	</insert>
+
+	<select id="query"
+		resultType="ClueInfo" 
+		parameterType="java.util.HashMap">
+		select a.*,
+			   (select t.phone_num from ccp_clue_provider_info t where t.id = a.providerId) as proViderPhoneNum
+		from (
+			select
+			<include refid="selectId" />
+			<include refid="clausePage" />
+				<if test="start != null or size != null">
+					limit #{start},#{size}
+				</if>
+		) a
+	</select>
+	
+	<select id="getAll"
+		resultType="ClueInfo"
+		parameterType="java.util.HashMap">
+		select a.*,
+			   (select t.phone_num from ccp_clue_provider_info t where t.id = a.providerId) as proViderPhoneNum
+		from (
+			select
+			<include refid="selectId" />
+			<include refid="clausePage" />
+			<if test="start != null or size != null">
+				limit #{start},#{size}
+			</if>
+		) a
+	</select>
+	
+	<select id="getCount" 
+		resultType="Integer" 
+		parameterType="java.util.HashMap">
+		select
+			count(0)
+		<include refid="clausePage" />
+	</select>
+
+	<select id="getById"
+		parameterType="String" 
+		resultType="ClueInfo">
+		select a.*,
+			   (select t.phone_num from ccp_clue_provider_info t where t.id = a.providerId) as proViderPhoneNum
+		from (
+			select
+			<include refid="selectId" />
+			from ccp_clueInfo where id=#{id}
+		) a
+	</select>
+	
+	<select id="queryByProviderId"
+		parameterType="String"
+		resultType="String">
+		select rev1 from ccp_clue_provider_info where id=#{value}
+	</select>
+	
+	<select id="findByApk" resultType="String">
+		select apkno from apk_server
+	</select>
+</mapper>

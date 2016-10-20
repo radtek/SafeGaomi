@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hisign.publicsafety.mapper.entrust.EntrustQueryMapper">
+
+	<sql id="deleteFlag">
+		'1'
+	</sql>
+	<!-- 以下与实体类的中字段一致 -->
+	<sql id="selectId">
+		id,
+		query_type,
+		entrust_no,
+		create_user,
+		create_date,
+		update_user,
+		update_date,
+		delete_flag,
+		rev1,
+		rev2,
+		rev3,
+		rev4,
+		rev5,
+		rev6,
+		rev7
+	</sql>
+
+	<sql id="insertId">
+		#{id},#{queryType},#{entrustNo},#{createUser},#{createDate},#{updateUser},#{updateDate},#{deleteFlag},#{rev1},#{rev2},#{rev3},#{rev4},#{rev5},#{rev6},#{rev7}
+	</sql>
+
+	<sql id="insertBatchId">
+		#{item.id},#{item.queryType},#{item.entrustNo},#{item.createUser},#{item.createDate},#{item.updateUser},#{item.updateDate},#{item.deleteFlag},#{item.rev1},#{item.rev2},#{item.rev3},#{item.rev4},#{item.rev5},#{item.rev6},#{item.rev7}
+	</sql>
+
+	<sql id="updateId">
+		id=#{id},query_type=#{queryType},entrust_no=#{entrustNo},create_user=#{createUser},create_date=#{createDate},update_user=#{updateUser},update_date=#{updateDate},delete_flag=#{deleteFlag},rev1=#{rev1},rev2=#{rev2},rev3=#{rev3},rev4=#{rev4},rev5=#{rev5},rev6=#{rev6},rev7=#{rev7}
+	</sql>
+
+	<resultMap type="EntrusInvestigationInfo" id="entrusInvestigationInfoMap">
+		<result property="id" column="id" />
+		<result property="queryType" column="query_type" />
+		<result property="entrustNo" column="entrust_no" />
+		<result property="createUser" column="create_user" />
+		<result property="createDate" column="create_date" />
+		<result property="updateUser" column="update_user" />
+		<result property="updateDate" column="update_date" />
+		<result property="deleteFlag" column="delete_flag" />
+		<result property="rev1" column="rev1" />
+		<result property="rev2" column="rev2" />
+		<result property="rev3" column="rev3" />
+		<result property="rev4" column="rev4" />
+		<result property="rev5" column="rev5" />
+		<result property="rev6" column="rev6" />
+		<result property="rev7" column="rev7" />
+	</resultMap>
+
+</mapper>

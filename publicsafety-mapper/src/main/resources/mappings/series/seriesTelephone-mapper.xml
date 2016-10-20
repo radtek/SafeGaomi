@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hisign.publicsafety.mapper.series.SeriesTelephoneMapper">
+	
+	<select id="queryAll" parameterType="SeriesCaseTelephone" resultMap="seriesCaseTelephoneMap">  
+    	select * from series_case_telephone where entrust_case_id = #{entrustCaseId}  
+	</select>
+	<!-- 增加信息 -->
+	<insert id="add" parameterType="SeriesCaseTelephone">
+		insert into series_case_telephone (
+		<include refid="selectId" />
+		)
+		values (
+			<include refid="insertId" />
+		)
+	</insert>
+	<!-- 批量增加信息 -->
+	<insert id="addBatch" parameterType="java.util.List">
+		insert into series_case_telephone (
+		<include refid="selectId" />
+		)
+		values 
+		<foreach collection="list" item="item" index="index" separator="," >  
+	        (
+				<include refid="insertBatchId" />
+			)  
+	    </foreach>  
+	</insert>
+	
+</mapper>

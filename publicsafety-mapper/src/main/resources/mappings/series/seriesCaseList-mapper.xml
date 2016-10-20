@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hisign.publicsafety.mapper.series.SeriesCaseListMapper">
+
+	<!-- -->
+	<sql id="selectId">
+		c.id case_id,
+		b.entrust_no,
+		c.case_no,
+		c.case_name,
+		c.case_type,
+		(select count(distinct 0) from series_case_detail where case_id=c.id and create_user=#{createUser}) is_series,
+		b.province_code,
+		b.city_code
+	</sql>
+
+	<sql id="clausePage">
+		from entrust_base_info b,entrust_case_info c
+		<where>
+			b.entrust_no=c.entrust_no
+			<if test="createUser != null and createUser != ''">
+				and b.create_user=#{createUser}
+			</if>
+			<if test="caseName != null and caseName != ''">
+				and c.case_name like CONCAT('%',#{caseName},'%')
+			</if>
+			<if test="caseType != null and caseType != ''">
+				and INSTR(#{caseType}, c.case_type) > 0
+			</if>
+			<if test="unit != null and unit != ''">
+				and b.unit = #{unit}
+			</if>
+			<if test="provinceCode != null and provinceCode != ''">
+				and b.province_code = #{provinceCode}
+			</if>
+			<if test="cityCode != null and cityCode != ''">
+				and b.city_code = #{cityCode}
+			</if>
+			<if test="caseOccurDateBegin != null and caseOccurDateBegin != ''">
+				and c.case_occur_date &gt;= str_to_date(#{caseOccurDateBegin}, '%Y-%m-%d %H:%i')
+			</if>
+			<if test="caseOccurDateEnd != null and caseOccurDateEnd != ''">
+				and c.case_occur_date &lt;= str_to_date(#{caseOccurDateEnd}, '%Y-%m-%d %H:%i')
+			</if>
+		</where>
+	</sql>
+
+	<!-- 列表分页查询 -->
+	<select id="query" resultMap="caseDataMap" parameterType="java.util.HashMap">
+		select
+		<include refid="selectId" />
+		<include refid="clausePage" />
+		order by b.update_date desc
+		<if test="start != null or size != null">
+			limit #{start},#{size}
+		</if>
+	</select>
+	<!-- -->
+	<select id="getCount" resultType="Integer" parameterType="java.util.HashMap">
+		select
+		count(0)
+		<include refid="clausePage" />
+	</select>
+
+	<resultMap id="caseDataMap" type="CaseDataForSelect">
+		<result property="caseId" column="case_id" />
+		<association property="entrustInfo" column="case_id" javaType="EntrustBaseInfo">
+			<result property="provinceCode" column="province_code" />
+			<result property="cityCode" column="city_code" />
+		</association>
+		<association property="caseInfo" column="case_id" javaType="EntrustCaseInfo">
+			<id property="id" column="case_id" />
+			<result property="entrustNo" column="entrust_no" />
+			<result property="caseNo" column="case_no" />
+			<result property="caseName" column="case_name" />
+			<result property="caseType" column="case_type" />
+			<result property="isSeries" column="is_series" />
+		</association>
+		<collection property="clueAlipays" ofType="SeriesCaseAlipay" select="com.hisign.publicsafety.mapper.series.SeriesAlipayMapper.queryAll" javaType="ArrayList" column="case_id">
+		</collection>
+		<collection property="clueTelephones" ofType="SeriesCaseTelephone" select="com.hisign.publicsafety.mapper.series.SeriesTelephoneMapper.queryAll" javaType="ArrayList" column="case_id">
+		</collection>
+		<collection property="clueCertificates" ofType="SeriesCaseCertificate" select="com.hisign.publicsafety.mapper.series.SeriesCertificateMapper.queryAll" javaType="ArrayList" column="case_id" />
+		<collection property="clueBankcards" ofType="SeriesCaseBankcard" select="com.hisign.publicsafety.mapper.series.SeriesBankcardMapper.queryAll" javaType="ArrayList" column="case_id" />
+	</resultMap>
+
+</mapper>

@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hisign.publicsafety.mapper.entrust.EntrustCaseMapper">
+	
+	<sql id="deleteFlag">
+		'1'
+	</sql>
+	<!-- 以下与实体类的中字段一致 -->
+	<sql id="selectId">
+		id,
+		entrust_no,
+		case_name,
+		case_occur_date,
+		case_no,
+		case_money_amout,
+		brand,
+		case_type,
+		case_info,
+		create_user,
+		create_date,
+		update_user,
+		update_date,
+		delete_flag,
+		rev1,
+		rev2,
+		rev3,
+		rev4,
+		rev5,
+		rev6,
+		rev7,
+		is_end
+	</sql>
+
+	<resultMap type="EntrustCaseInfo" id="entrustCaseInfoMap">
+<result property="id" column="id" />
+<result property="entrustNo" column="entrust_no" />
+<result property="caseName" column="case_name" />
+<result property="caseOccurDate" column="case_occur_date" jdbcType="TIMESTAMP" javaType="String"
+         />
+<result property="caseNo" column="case_no" />
+<result property="caseMoneyAmout" column="case_money_amout" />
+<result property="brand" column="brand" />
+<result property="caseType" column="case_type" />
+<result property="caseInfo" column="case_info" />
+<result property="createUser" column="create_user" />
+<result property="createDate" column="create_date" />
+<result property="updateUser" column="update_user" />
+<result property="updateDate" column="update_date" />
+<result property="deleteFlag" column="delete_flag" />
+<result property="rev1" column="rev1" />
+<result property="rev2" column="rev2" />
+<result property="rev3" column="rev3" />
+<result property="rev4" column="rev4" />
+<result property="rev5" column="rev5" />
+<result property="rev6" column="rev6" />
+<result property="rev7" column="rev7" />
+<result property="isEnd" column="is_end" />
+</resultMap>
+
+	<!--  -->
+	<select id="queryAll" resultMap="entrustCaseInfoMap" parameterType="EntrustCaseInfo">
+		select
+		<include refid="selectId" />
+		from entrust_case_info
+		<where>
+			delete_flag!=<include refid="deleteFlag" />
+			<if test="entrustNo != null and entrustNo != ''">
+				and entrust_no = #{entrustNo}
+			</if>
+		</where>
+	</select>
+	
+
+	<!-- 增加案件信息 str_to_date(#{caseOccurDate}, '%Y-%m-%d'),-->
+	<insert id="add" parameterType="EntrustCaseInfo">
+		insert into entrust_case_info (
+			<include refid="selectId" />
+		)
+		values (
+			#{id},
+#{entrustNo},
+#{caseName},
+#{caseOccurDate, jdbcType=TIMESTAMP, javaType=String},
+#{caseNo},
+#{caseMoneyAmout},
+#{brand},
+#{caseType},
+#{caseInfo},
+#{createUser},
+#{createDate},
+#{updateUser},
+#{updateDate},
+#{deleteFlag},
+#{rev1},
+#{rev2},
+#{rev3},
+#{rev4},
+#{rev5},
+#{rev6},
+#{rev7},
+#{isEnd}
+		)
+	</insert>
+
+	<delete id="delete" parameterType="String">
+		update entrust_case_info 
+		set delete_flag=<include refid="deleteFlag" /> 
+		where entrust_no=#{entrustNo}
+	</delete>
+
+	<select id="getByEntrustNo" parameterType="String" resultMap="entrustCaseInfoMap">
+		select
+		<include refid="selectId" />
+		from entrust_case_info where 
+			delete_flag!=<include refid="deleteFlag" />
+			and entrust_no=#{entrustNo}
+	</select>
+
+	<select id="getById" parameterType="String" resultMap="entrustCaseInfoMap">
+		select
+		<include refid="selectId" />
+		from entrust_case_info
+		<where>
+			id=#{id}
+		</where>
+	</select>
+
+	<update id="update" parameterType="EntrustCaseInfo">
+		update entrust_case_info
+		<set>
+			<if test="caseName != null and caseName != ''">
+				case_name=#{caseName},
+			</if>
+			<if test="caseOccurDate != null and caseOccurDate != ''">
+				case_occur_date=#{caseOccurDate, jdbcType=TIMESTAMP, javaType=String},
+			</if>
+			<if test="caseNo != null and caseNo != ''">
+				case_no=#{caseNo},
+			</if>
+			<if test="caseMoneyAmout != null and caseMoneyAmout != ''">
+				case_money_amout=#{caseMoneyAmout},
+			</if>
+			<if test="brand != null and brand != ''">
+				brand=#{brand},
+			</if>
+			<if test="caseType != null and caseType != ''">
+				case_type=#{caseType},
+			</if>
+			<if test="caseInfo != null and caseInfo != ''">
+				case_info=#{caseInfo},
+			</if>
+			<if test="createUser != null and createUser != ''">
+				create_user=#{createUser},
+			</if>
+			<if test="createDate != null and createDate != ''">
+				create_date=#{createDate},
+			</if>
+			<if test="updateUser != null and updateUser != ''">
+				update_user=#{updateUser},
+			</if>
+			<if test="updateDate != null and updateDate != ''">
+				update_date=#{updateDate},
+			</if>
+			<if test="deleteFlag != null and deleteFlag != ''">
+				delete_flag=#{deleteFlag},
+			</if>
+			<if test="rev1 != null and rev1 != ''">
+				rev1=#{rev1},
+			</if>
+			<if test="rev2 != null and rev2 != ''">
+				rev2=#{rev2},
+			</if>
+			<if test="rev3 != null and rev3 != ''">
+				rev3=#{rev3},
+			</if>
+			<if test="rev4 != null and rev4 != ''">
+				rev4=#{rev4},
+			</if>
+			<if test="rev5 != null and rev5 != ''">
+				rev5=#{rev5},
+			</if>
+			<if test="rev6 != null and rev6 != ''">
+				rev6=#{rev6},
+			</if>
+			<if test="rev7 != null and rev7 != ''">
+				rev7=#{rev7},
+			</if>
+			<if test="isEnd != null and isEnd != ''">
+				is_end=#{isEnd},
+			</if>
+			<if test="isSeries != null and isSeries != ''">
+				is_series=#{isSeries},
+			</if>
+			<if test="seriesUser != null and seriesUser != ''">
+				series_user=#{seriesUser},
+			</if>
+			<if test="seriesDate != null and seriesDate != ''">
+				series_date=#{seriesDate},
+			</if>
+		</set>
+		<where>
+			<choose>
+				<when test="entrustNo != null and entrustNo != ''">
+					and entrust_no=#{entrustNo} and delete_flag!=<include refid="deleteFlag" />
+				</when>
+				<when test="id != null and id != ''">
+					and id=#{id}
+				</when>
+				<otherwise>
+					AND 1=0
+				</otherwise>
+			</choose>
+		</where>
+	</update>
+
+	
+</mapper>

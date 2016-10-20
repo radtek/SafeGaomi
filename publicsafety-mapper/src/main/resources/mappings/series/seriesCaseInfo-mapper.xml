@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hisign.publicsafety.mapper.series.SeriesCaseInfoMapper">
+	
+	<!-- 增加信息 -->
+	<insert id="add" parameterType="SeriesCaseInfo">
+		insert into series_case_info (
+		<include refid="selectId" />
+		)
+		values (
+			<include refid="insertId" />
+		)
+	</insert>
+	<!-- 批量增加信息 -->
+	<insert id="addBatch" parameterType="java.util.List">
+		insert into series_case_info (
+		<include refid="selectId" />
+		)
+		values 
+		<foreach collection="list" item="item" index="index" separator="," >  
+	        (
+				<include refid="insertBatchId" />
+			)  
+	    </foreach>  
+	</insert>
+	
+	<select id="getById" parameterType="String" resultMap="seriesCaseInfoMap">
+		select
+		<include refid="selectId" />
+		from series_case_info where id=#{id}
+	</select>
+	
+	<delete id="delete" parameterType="String">
+		update series_case_info 
+		set delete_flag=<include refid="deleteFlag" /> 
+		where id=#{id}
+	</delete>
+	
+	<delete id="deleteBySeriesNo" parameterType="String">
+		update series_case_info 
+		set delete_flag=<include refid="comm.deleteTrue" /> 
+		where series_case_no=#{seriesCaseNo}
+		 and delete_flag!=<include refid="comm.deleteTrue" /> 
+	</delete>
+</mapper>

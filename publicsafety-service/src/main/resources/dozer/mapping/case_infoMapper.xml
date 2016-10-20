@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<mappings xmlns="http://dozer.sourceforge.net"  
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+       xsi:schemaLocation="http://dozer.sourceforge.net  
+       http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+	<configuration>
+		<stop-on-errors>true</stop-on-errors>
+		<wildcard>true</wildcard>
+		<custom-converters>
+			<converter type="com.hisign.publicsafety.util.dozer.EnumInvestTypeConverter">
+				<class-a>java.lang.Enum</class-a>
+				<class-b>java.lang.String</class-b>
+			</converter>
+		</custom-converters>
+	</configuration>
+	<mapping date-format="yyyy-MM-dd HH:mm">
+		<class-a>com.alibaba.dio2o.domain.request.CaseInfo</class-a>
+		<class-b>com.hisign.publicsafety.entity.EntrustCaseInfo</class-b>
+	</mapping>
+ </mappings>  

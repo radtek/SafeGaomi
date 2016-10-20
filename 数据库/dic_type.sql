@@ -1,0 +1,13 @@
+INSERT INTO `dic_type` VALUES (1, 'res_type', '菜单类型', '菜单类型是目录,菜单,按扭,', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `dic_type` VALUES (2, 'query_type', '查询类型', '查询阿里的类型', '', '', '', '', '', '', '');
+INSERT INTO `dic_type` VALUES (4, 'province', '省份', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `dic_type` VALUES (5, 'city', '市', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `dic_type` VALUES (6, 'case_type', '案件类型', '案件类型', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `dic_type` VALUES (7, 'xcxx', '协查信息', '协查信息', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `dic_type` VALUES (8, 'case_stage', '案件办理阶段', '案件办理阶段', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `dic_type` VALUES (9, 'process_state', '审核状态', '审核状态', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `dic_type` VALUES (10, 'GXSDM', '管辖所代码', '管辖所代码', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `dic_type` VALUES (11, 'XZQHDM', '行政区划代码', '行政区划代码', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `dic_type` VALUES (1798, 'test', 'test', 'test', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `dic_type` VALUES (1799, 'test1', 'test1', 'test1', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `dic_type` VALUES (4319, 'FKPJ', '反馈评价', '反馈评价', NULL, NULL, NULL, NULL, NULL, NULL, NULL);

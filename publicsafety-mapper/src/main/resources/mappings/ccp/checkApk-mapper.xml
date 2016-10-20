@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hisign.publicsafety.mapper.ccp.CheckApkInfoMapper">
+	<!-- 以下与实体类的中字段一致 -->
+	<sql id="selectId">
+		id,
+		apkno
+	</sql>
+	
+	<select id="findByApk" resultType="CheckApk">
+		select 
+		<include refid="selectId" />
+		from apk_server
+	</select>	
+</mapper>

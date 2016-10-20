@@ -1,0 +1,90 @@
+@charset "utf-8";
+/* CSS Document */
+body {
+   
+    font-size: 13px;
+    font-weight: 400;
+   
+}
+.dashbox .panel-body {
+    padding: 0px;
+    outline: medium none !important;
+}
+.dashbox .panel-left {
+    width: 30%;
+    float: left;
+    padding: 10px;
+    border-radius: 4px 0 0 4px;
+    color: #FFFFFF;
+    text-align: center;
+    background-color: #f4f4f4;
+    border-right: 1px solid #DDDDDD;
+}
+.dashbox .panel-right {
+    width: 70%;
+    float: right;
+    padding-left: 12px;
+    padding-top: 7px;
+    border-radius: 0 4px 4px 0;
+    position: relative;
+}
+.dashbox {
+    margin-bottom: 0px;
+    background-color: #ffffff;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+.panel-default {
+    border-color: #dddddd;
+}
+.dashbox .panel-right .number {
+    font-size: 20px;
+    font-weight: 400;
+    color: #666666;
+}
+.dashbox .panel-left.red i {
+    color: #D9534F;
+}
+.dashbox .panel-left.blue i {
+    color: #70AFC4;
+}
+.dashbox .panel-left.green i {
+    color: #5cb85c;
+}
+.dashbox .panel-left.gray i {
+    color: #646464;
+}
+.fa-3x {
+    font-size: 3em;
+}
+.dashbox .panel-right .title {
+    text-transform: uppercase;
+}
+.dashbox .panel-right .label {
+    position: absolute;
+    right: 1px;
+    top: 1px;
+    font-size: 10px;
+	padding: 2px 4px 0 4px;
+}
+.label {
+    height: 16px;
+    line-height: 1.15;
+}
+.label-success {
+    background-color: #a8bc7b;
+}
+.label > span, .label > [class*="fa-"] {
+    line-height: 1;
+}
+.fa {
+    display: inline-block;
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}

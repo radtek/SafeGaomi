@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hisign.publicsafety.mapper.AccountMapper">
+
+	<!--mybatis ehcache缓存配置 -->
+	<!-- 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 <cache type="org.mybatis.caches.ehcache.LoggingEhcache" 
+		/> -->
+	<!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
+	<!-- 以下与实体类的中字段一致 -->
+	<sql id="selectId">
+		id,
+		accountName,
+		(select group_concat(name) from role r
+		where r.id in (select role_id from acc_role a where a.acc_id = account.id)) roleName,
+		password,
+		trueName,
+		unitCode,
+		(select dicName from dic where dic.dicKey = unitCode) unitName,
+		phoneNumber,
+		description,
+		state,
+		policeNumber,
+		duty,
+		createTime
+	</sql>
+	
+	<!--resultType="Account" 每返回一条结果封装到Account里 -->
+	<select id="queryAll" resultType="Account" parameterType="Account">
+		select
+		<include refid="selectId" />
+		from account
+		<where>
+			<if test="accountName != null and accountName != ''">
+				accountName like CONCAT('%',#{accountName},'%')
+			</if>
+		</where>
+	</select>
+
+	<select id="isExist" resultType="Account" parameterType="String">
+		select
+		<include refid="selectId" />
+		from account
+		where accountName = #{accountName}
+	</select>
+
+	<select id="isExistByPoliceNumber" resultType="Account" parameterType="String">
+		select
+		<include refid="selectId" />
+		from account
+		where policeNumber = #{value}
+	</select>
+
+	<sql id="clausePage">
+		from account
+		<where>
+			1 = 1
+			<if test="t.accountName != null and t.accountName != ''">
+				and accountName like CONCAT('%',#{t.accountName},'%')
+			</if>
+			<if test="t.trueName != null and t.trueName != ''">
+				and trueName like CONCAT('%',#{t.trueName},'%')
+			</if>
+			<if test="t.phoneNumber != null and t.phoneNumber != ''">
+				and phoneNumber like CONCAT('%',#{t.phoneNumber},'%')
+			</if>
+			<if test="t.unitCode != null and t.unitCode != ''">
+				and (unitCode in 
+						(select d.dicKey 
+							from dic d 
+							where d.dicTypeId = 10 
+								and d.dicParentKey = #{t.unitCode} 
+								or d.dicKey = #{t.unitCode})
+					)
+			</if>
+			<if test="t.roleIds != null and t.roleIds != ''">
+				and #{t.roleIds} in (select role_id from acc_role a where a.acc_id = id)
+			</if>
+		</where>
+	</sql>
+	
+	<!--resultType="Account" 每返回一条结果封装到Account里 -->
+	<select id="query" resultType="Account" parameterType="java.util.HashMap">
+		select
+		<include refid="selectId" />
+		<include refid="clausePage" />
+			<if test="start != null or size != null">
+				limit #{start},#{size}
+			</if>
+	</select>
+	<!--  -->
+	<select id="getCount" resultType="Integer" parameterType="java.util.HashMap">
+		select
+			count(0)
+		<include refid="clausePage" />
+	</select>
+
+	
+
+	<!-- 增加用户 -->
+	<insert id="add" parameterType="Account">
+		insert into account (
+		id,
+		accountName,
+		password,
+		description,
+		state,
+		trueName,
+		phoneNumber,
+		policeNumber,
+		duty,
+		unitCode,
+		createTime
+		)
+		values (
+		#{id},
+		#{accountName},
+		#{password}, 
+		#{description},
+		#{state},
+		#{trueName},
+		#{phoneNumber},
+		#{policeNumber},
+		#{duty},
+		#{unitCode},
+		#{createTime}
+		)
+	</insert>
+
+	<delete id="delete" parameterType="String">
+		delete from account where
+		id=#{id}
+	</delete>
+
+	<select id="getById" parameterType="String" resultType="Account">
+		select
+		<include refid="selectId" />
+		from account where id=#{id}
+	</select>
+
+	<update id="update" parameterType="Account">
+		update account
+		<set>
+			<if test="trueName != null and trueName != ''">
+				trueName=#{trueName},
+			</if>
+			<if test="accountName != null and accountName != ''">
+				accountName=#{accountName},
+			</if>
+			<if test="password != null and password != ''">
+				password=#{password},
+			</if>
+			<if test="description != null and description != ''">
+				description=#{description},
+			</if>
+			<if test="phoneNumber != null and phoneNumber != ''">
+				phoneNumber=#{phoneNumber},
+			</if>
+			<if test="policeNumber != null">
+				policeNumber=#{policeNumber},
+			</if>
+			<if test="duty != null and duty != ''">
+				duty=#{duty},
+			</if>
+			<if test="unitCode != null and unitCode != ''">
+				unitCode=#{unitCode},
+			</if>
+			<if test="state != null and state != ''">
+				state=#{state},
+			</if>
+			<if test="updateTime != null and updateTime != ''">
+				updateTime=#{updateTime}
+			</if>
+		</set>
+		where id=#{id}
+	</update>
+
+	<!-- 验证用户登陆 -->
+	<select id="countAccount" parameterType="Account" resultType="Account">
+		select
+		<include refid="selectId" />
+		from account where
+		accountName=#{accountName} and password=#{password}
+	</select>
+
+	<!-- 根据用户名查出id -->
+	<select id="querySingleAccount" parameterType="String"
+		resultType="Account">
+		select
+		<include refid="selectId" />
+		from account where accountName=#{accountName}
+	</select>
+</mapper>

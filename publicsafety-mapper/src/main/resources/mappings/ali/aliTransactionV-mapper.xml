@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hisign.publicsafety.mapper.ali.AliTransactionMapper">
+
+	<!-- 以下与实体类的中字段一致 -->
+	<sql id="selectId">
+		id,
+		entrust_no,
+		trade_no,
+		out_trade_no,
+		trade_status_desc,
+		partner_id,
+		trade_buyer_id,
+		buyer_info,
+		trade_seller_id,
+		seller_info,
+		trade_total_amt,
+		trade_receive_pay_date,
+		gmt_modified,
+		trade_create_date,
+		trade_type_desc,
+		trade_from_desc,
+		goods_title,
+		receive_address,
+		data_create_user,
+		data_create_date
+	</sql>
+
+	<sql id="insertId">
+		#{id},#{entrustNo},#{tradeNo},#{outTradeNo},#{tradeStatusDesc},#{partnerId},#{tradeBuyerId},#{buyerInfo},#{tradeSellerId},#{sellerInfo},#{tradeTotalAmt},#{tradeReceivePayDate},#{gmtModified},#{tradeCreateDate},#{tradeTypeDesc},#{tradeFromDesc},#{goodsTitle},#{receiveAddress},#{dataCreateUser},#{dataCreateDate}
+	</sql>
+
+	<sql id="insertBatchId">
+		#{item.id},#{item.entrustNo},#{item.tradeNo},#{item.outTradeNo},#{item.tradeStatusDesc},#{item.partnerId},#{item.tradeBuyerId},#{item.buyerInfo},#{item.tradeSellerId},#{item.sellerInfo},#{item.tradeTotalAmt},#{item.tradeReceivePayDate},#{item.gmtModified},#{item.tradeCreateDate},#{item.tradeTypeDesc},#{item.tradeFromDesc},#{item.goodsTitle},#{item.receiveAddress},#{item.dataCreateUser},#{item.dataCreateDate}
+	</sql>
+
+	<sql id="updateId">
+		id=#{id},entrust_no=#{entrustNo},trade_no=#{tradeNo},out_trade_no=#{outTradeNo},trade_status_desc=#{tradeStatusDesc},partner_id=#{partnerId},trade_buyer_id=#{tradeBuyerId},buyer_info=#{buyerInfo},trade_seller_id=#{tradeSellerId},seller_info=#{sellerInfo},trade_total_amt=#{tradeTotalAmt},trade_receive_pay_date=#{tradeReceivePayDate},gmt_modified=#{gmtModified},trade_create_date=#{tradeCreateDate},trade_type_desc=#{tradeTypeDesc},trade_from_desc=#{tradeFromDesc},goods_title=#{goodsTitle},receive_address=#{receiveAddress},data_create_user=#{dataCreateUser},data_create_date=#{dataCreateDate}
+	</sql>
+
+	<resultMap type="AliTransactionRecords" id="aliTransactionRecordsMap">
+		<result property="id" column="id" />
+		<result property="entrustNo" column="entrust_no" />
+		<result property="tradeNo" column="trade_no" />
+		<result property="outTradeNo" column="out_trade_no" />
+		<result property="tradeStatusDesc" column="trade_status_desc" />
+		<result property="partnerId" column="partner_id" />
+		<result property="tradeBuyerId" column="trade_buyer_id" />
+		<result property="buyerInfo" column="buyer_info" />
+		<result property="tradeSellerId" column="trade_seller_id" />
+		<result property="sellerInfo" column="seller_info" />
+		<result property="tradeTotalAmt" column="trade_total_amt" />
+		<result property="tradeReceivePayDate" column="trade_receive_pay_date" />
+		<result property="gmtModified" column="gmt_modified" />
+		<result property="tradeCreateDate" column="trade_create_date" />
+		<result property="tradeTypeDesc" column="trade_type_desc" />
+		<result property="tradeFromDesc" column="trade_from_desc" />
+		<result property="goodsTitle" column="goods_title" />
+		<result property="receiveAddress" column="receive_address" />
+		<result property="dataCreateUser" column="data_create_user" />
+		<result property="dataCreateDate" column="data_create_date" />
+	</resultMap>
+
+</mapper>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hisign.publicsafety.mapper.entrust.EntrustSatisfactoryMapper">
+
+	<!-- 以下与实体类的中字段一致 -->
+	<sql id="selectId">
+		id,
+		entrust_no,
+		satisfactory_key,
+		satisfactory_result,
+		type,
+		advice,
+		create_user,
+		create_date,
+		update_user,
+		update_date,
+		delete_flag,
+		rev1,
+		rev2,
+		rev3,
+		rev4,
+		rev5,
+		rev6,
+		rev7
+	</sql>
+
+	<sql id="insertId">
+		#{id},#{entrustNo},#{satisfactoryKey},#{satisfactoryResult},#{type},#{advice},#{createUser},#{createDate},#{updateUser},#{updateDate},#{deleteFlag},#{rev1},#{rev2},#{rev3},#{rev4},#{rev5},#{rev6},#{rev7}
+	</sql>
+
+	<sql id="insertBatchId">
+		#{item.id},#{item.entrustNo},#{item.satisfactoryKey},#{item.satisfactoryResult},#{item.type},#{item.advice},#{item.createUser},#{item.createDate},#{item.updateUser},#{item.updateDate},#{item.deleteFlag},#{item.rev1},#{item.rev2},#{item.rev3},#{item.rev4},#{item.rev5},#{item.rev6},#{item.rev7}
+	</sql>
+
+	<sql id="updateId">
+		id=#{id},entrust_no=#{entrustNo},satisfactory_key=#{satisfactoryKey},satisfactory_result=#{satisfactoryResult},type=#{type},advice=#{advice},create_user=#{createUser},create_date=#{createDate},update_user=#{updateUser},update_date=#{updateDate},delete_flag=#{deleteFlag},rev1=#{rev1},rev2=#{rev2},rev3=#{rev3},rev4=#{rev4},rev5=#{rev5},rev6=#{rev6},rev7=#{rev7}
+	</sql>
+
+	<resultMap type="EntrustSatisfactoryResults" id="entrustSatisfactoryResultsMap">
+		<result property="id" column="id" />
+		<result property="entrustNo" column="entrust_no" />
+		<result property="satisfactoryKey" column="satisfactory_key" />
+		<result property="satisfactoryResult" column="satisfactory_result" />
+		<result property="type" column="type" />
+		<result property="advice" column="advice" />
+		<result property="createUser" column="create_user" />
+		<result property="createDate" column="create_date" />
+		<result property="updateUser" column="update_user" />
+		<result property="updateDate" column="update_date" />
+		<result property="deleteFlag" column="delete_flag" />
+		<result property="rev1" column="rev1" />
+		<result property="rev2" column="rev2" />
+		<result property="rev3" column="rev3" />
+		<result property="rev4" column="rev4" />
+		<result property="rev5" column="rev5" />
+		<result property="rev6" column="rev6" />
+		<result property="rev7" column="rev7" />
+	</resultMap>
+
+</mapper>

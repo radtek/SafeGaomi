@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hisign.publicsafety.mapper.entrust.EntrustSatisfactoryMapper">
+	
+
+	<!--  -->
+	<select id="queryAll" resultMap="entrustSatisfactoryResultsMap" parameterType="EntrustSatisfactoryResults">
+		select
+		<include refid="selectId" />
+		from entrust_satisfactory_results
+		<where>
+			<if test="entrustNo != null and entrustNo != ''">
+				entrust_no = #{entrustNo}
+			</if>
+		</where>
+	</select>
+	
+
+	<!-- 增加信息 -->
+	<insert id="add" parameterType="EntrustSatisfactoryResults">
+		insert into entrust_satisfactory_results (
+		<include refid="selectId" />
+		)
+		values (
+			<include refid="insertId" />
+		)
+	</insert>
+	<!-- 增加信息 -->
+	<insert id="addBatch" parameterType="java.util.List">
+		insert into entrust_satisfactory_results (
+		<include refid="selectId" />
+		)
+		values 
+		<foreach collection="list" item="item" index="index" separator="," >  
+	        (
+				<include refid="insertBatchId" />
+			)  
+	    </foreach>  
+	</insert>
+<!--
+	<delete id="delete" parameterType="String">
+		delete from entrust_satisfactory_results where
+		entrust_no=#{entrustNo}
+	</delete>
+
+	<select id="getById" parameterType="String" resultType="EntrustSatisfactoryResults">
+		select
+		<include refid="selectId" />
+		from entrust_satisfactory_results where entrust_no=#{entrustNo} limit 1
+	</select>
+
+	<update id="update" parameterType="EntrustSatisfactoryResults">
+		update entrust_satisfactory_results
+		<set>
+			<if test="id != null and id != ''">
+				id=#{id}
+			</if>
+			<if test="entrustNo != null and entrustNo != ''">
+				entrust_no=#{entrustNo}
+			</if>
+			
+		</set>
+		where id=#{id} and entrust_no=#{entrustNo}
+	</update>
+-->
+	
+</mapper>

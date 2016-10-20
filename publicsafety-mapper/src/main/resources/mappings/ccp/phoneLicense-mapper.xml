@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hisign.publicsafety.mapper.ccp.PhoneLicenseMapper">
+
+	<insert id="add" 
+		parameterType="PhoneLicense">
+		insert into ccp_phone_license (
+			id,
+			phone_num,
+			serial_num,
+			author_file,
+			author_count,
+			create_date
+		) values (
+			#{id},
+			#{phoneNum},
+			#{serialNum},
+			#{authorFile},
+			0,
+			#{createDate}
+		)
+	</insert>
+	
+	<update id="update" parameterType="PhoneLicense">
+		update ccp_phone_license
+		<set>
+			phone_num=#{phoneNum},
+			author_count=#{authorCount},
+			update_date=#{updateDate}
+		</set>
+		where serial_num=#{serialNum}
+	</update>
+	
+	<select id="findByIMEI" 
+		parameterType="String"
+		resultType="PhoneLicense">
+		select 
+			id as id,
+			phone_num as phoneNum,
+			serial_num as serialNum,
+			author_file as authorFile,
+			author_count as authorCount
+		from ccp_phone_license
+		where serial_num = #{value}
+	</select>
+	
+</mapper>

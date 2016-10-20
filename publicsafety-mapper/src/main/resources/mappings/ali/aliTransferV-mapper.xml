@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hisign.publicsafety.mapper.ali.AliTransferMapper">
+
+	<!-- 以下与实体类的中字段一致 -->
+	<sql id="selectId">
+		id,
+		entrust_no,
+		transfer_no,
+		sender_userid,
+		receiver_userid,
+		receiver_inst,
+		trans_succ_date,
+		trans_amount,
+		product_name,
+		trade_area,
+		withdraw_no,
+		create_user,
+		create_date
+	</sql>
+
+	<sql id="insertId">
+		#{id},#{entrustNo},#{transferNo},#{senderUserid},#{receiverUserid},#{receiverInst},#{transSuccDate},#{transAmount},#{productName},#{tradeArea},#{withdrawNo},#{createUser},#{createDate}
+	</sql>
+
+	<sql id="insertBatchId">
+		#{item.id},#{item.entrustNo},#{item.transferNo},#{item.senderUserid},#{item.receiverUserid},#{item.receiverInst},#{item.transSuccDate},#{item.transAmount},#{item.productName},#{item.tradeArea},#{item.withdrawNo},#{item.createUser},#{item.createDate}
+	</sql>
+
+	<sql id="updateId">
+		id=#{id},entrust_no=#{entrustNo},transfer_no=#{transferNo},sender_userid=#{senderUserid},receiver_userid=#{receiverUserid},receiver_inst=#{receiverInst},trans_succ_date=#{transSuccDate},trans_amount=#{transAmount},product_name=#{productName},trade_area=#{tradeArea},withdraw_no=#{withdrawNo},create_user=#{createUser},create_date=#{createDate}
+	</sql>
+
+	<resultMap type="AliTransferDetail" id="aliTransferDetailMap">
+		<result property="id" column="id" />
+		<result property="entrustNo" column="entrust_no" />
+		<result property="transferNo" column="transfer_no" />
+		<result property="senderUserid" column="sender_userid" />
+		<result property="receiverUserid" column="receiver_userid" />
+		<result property="receiverInst" column="receiver_inst" />
+		<result property="transSuccDate" column="trans_succ_date" />
+		<result property="transAmount" column="trans_amount" />
+		<result property="productName" column="product_name" />
+		<result property="tradeArea" column="trade_area" />
+		<result property="withdrawNo" column="withdraw_no" />
+		<result property="createUser" column="create_user" />
+		<result property="createDate" column="create_date" />
+	</resultMap>
+
+</mapper>

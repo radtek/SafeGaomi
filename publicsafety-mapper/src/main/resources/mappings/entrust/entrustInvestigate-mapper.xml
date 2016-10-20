@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hisign.publicsafety.mapper.entrust.EntrustInvestigateMapper">
+	
+
+
+	<!--  -->
+	<select id="queryAll" resultMap="entrusInvestigationTypeinfoMap" parameterType="EntrusInvestigationTypeinfo">
+		select
+		<include refid="selectId" />
+		from entrus_investigation_typeinfo
+		<where>
+			delete_flag!=<include refid="deleteFlag" />
+			<if test="entrustNo != null and entrustNo != ''">
+				and entrust_no = #{entrustNo}
+			</if>
+		</where>
+	</select>
+
+	
+
+	<!-- 增加调查字段信息
+	<insert id="add" parameterType="EntrusInvestigationTypeinfo">
+		insert into entrus_investigation_typeinfo (
+		<include refid="selectId" />
+		)
+		values (
+			<include refid="insertId" />
+		)
+	</insert> -->
+	<!-- 批量增加调查字段信息 -->
+	<insert id="addBatch" parameterType="java.util.List">
+		insert into `entrus_investigation_typeinfo` (
+		<include refid="selectId" />
+		)
+		values 
+		<foreach collection="list" item="item" index="index" separator="," >  
+	        (
+				<include refid="insertBatchId" />
+			)  
+	    </foreach>  
+	</insert>
+<!--
+	<delete id="delete" parameterType="String">
+		update entrus_investigation_typeinfo 
+		set delete_flag=<include refid="deleteFlag" /> 
+		where entrust_no=#{entrustNo}
+	</delete>  -->
+	<delete id="delete" parameterType="String">
+		delete from entrus_investigation_typeinfo 
+		where entrust_no=#{entrustNo}
+	</delete>
+<!--
+	<select id="getById" parameterType="String" resultMap="entrusInvestigationTypeinfoMap">
+		select
+		<include refid="selectId" />
+		from entrus_investigation_typeinfo where 
+			delete_flag!=<include refid="deleteFlag" />
+			and entrust_no=#{entrustNo} limit 1
+	</select>  -->
+
+<!--
+	<update id="update" parameterType="EntrusInvestigationTypeinfo">
+		update entrus_investigation_typeinfo
+		<set>
+			<include refid="updateId" />	
+		</set>
+		where entrust_no=#{entrustNo} and delete_flag!=<include refid="deleteFlag" />
+	</update>
+  -->
+	
+</mapper>

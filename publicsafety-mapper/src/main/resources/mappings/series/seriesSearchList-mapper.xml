@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hisign.publicsafety.mapper.series.SeriesSearchListMapper">
+
+	<!-- -->
+	<sql id="selectId">
+		DISTINCT
+			case_id,
+			entrust_no,
+			case_no,
+			case_name,
+			case_type,
+			province_code,
+			city_code
+	</sql>
+	<sql id="caseFilter">
+		AND (c.create_user = #{createUser} OR(b.is_share_caseinfo = '1' AND b.is_share_queryresult = '1'))
+		AND not exists (select 0 from series_case_detail where case_id=c.id and create_user=#{createUser})
+	</sql>
+	<sql id="clausePage">
+		FROM
+		(
+			SELECT
+				<include refid="com.hisign.publicsafety.mapper.series.SeriesCaseListMapper.selectId" />
+			FROM
+				entrust_base_info b,
+				entrust_case_info c,
+				series_case_alipay alipay
+			WHERE
+				b.entrust_no = c.entrust_no
+			AND c.id = alipay.entrust_case_id
+			<include refid="caseFilter" />
+			AND alipay.alipay_card IN (SELECT alipay_card FROM series_case_alipay WHERE entrust_case_id = #{entrustCaseId})
+			UNION ALL
+				SELECT
+					<include refid="com.hisign.publicsafety.mapper.series.SeriesCaseListMapper.selectId" />
+				FROM
+					entrust_base_info b,
+					entrust_case_info c,
+					series_case_telephone tele
+				WHERE
+					b.entrust_no = c.entrust_no
+				AND c.id = tele.entrust_case_id
+				<include refid="caseFilter" />
+				AND tele.telephone IN (SELECT telephone FROM series_case_telephone WHERE entrust_case_id = #{entrustCaseId})
+				UNION ALL
+					SELECT
+						<include refid="com.hisign.publicsafety.mapper.series.SeriesCaseListMapper.selectId" />
+					FROM
+						entrust_base_info b,
+						entrust_case_info c,
+						series_case_certificate cert
+					WHERE
+						b.entrust_no = c.entrust_no
+					AND c.id = cert.entrust_case_id
+					<include refid="caseFilter" />
+					AND cert.certificate_no IN (SELECT certificate_no FROM series_case_certificate WHERE entrust_case_id = #{entrustCaseId})
+					UNION ALL
+						SELECT
+							<include refid="com.hisign.publicsafety.mapper.series.SeriesCaseListMapper.selectId" />
+						FROM
+							entrust_base_info b,
+							entrust_case_info c,
+							series_case_bankcard bank
+						WHERE
+							b.entrust_no = c.entrust_no
+						AND c.id = bank.entrust_case_id
+						<include refid="caseFilter" />
+						AND bank.bankcard IN (SELECT bankcard FROM series_case_certificate WHERE entrust_case_id = #{entrustCaseId})
+		) searched
+	</sql>
+
+	<!-- 列表分页查询 -->
+	<select id="query" resultMap="com.hisign.publicsafety.mapper.series.SeriesCaseListMapper.caseDataMap" parameterType="java.util.HashMap">
+		select
+		<include refid="selectId" />
+		<include refid="clausePage" />
+		<if test="start != null or size != null">
+			limit #{start},#{size}
+		</if>
+	</select>
+	<!-- -->
+	<select id="getCount" resultType="Integer" parameterType="java.util.HashMap">
+		select
+		count(DISTINCT case_id)
+		<include refid="clausePage" />
+	</select>
+
+</mapper>

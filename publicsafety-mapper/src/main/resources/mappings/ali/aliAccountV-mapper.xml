@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hisign.publicsafety.mapper.ali.AliAccountMapper">
+
+	<!-- 以下与实体类的中字段一致 -->
+	<sql id="selectId">
+		id,
+		entrust_no,
+		trans_out_order_no,
+		trans_account,
+		other_account,
+		trans_date,
+		trans_dt,
+		trans_amount_d,
+		trans_amount_c,
+		balance,
+		sub_trans_code_desc,
+		trade_area,
+		show_name,
+		trans_memo,
+		create_user,
+		create_date
+	</sql>
+
+	<sql id="insertId">
+		#{id},#{entrustNo},#{transOutOrderNo},#{transAccount},#{otherAccount},#{transDate},#{transDt},#{transAmountD},#{transAmountC},#{balance},#{subTransCodeDesc},#{tradeArea},#{showName},#{transMemo},#{createUser},#{createDate}
+	</sql>
+
+	<sql id="insertBatchId">
+		#{item.id},#{item.entrustNo},#{item.transOutOrderNo},#{item.transAccount},#{item.otherAccount},#{item.transDate},#{item.transDt},#{item.transAmountD},#{item.transAmountC},#{item.balance},#{item.subTransCodeDesc},#{item.tradeArea},#{item.showName},#{item.transMemo},#{item.createUser},#{item.createDate}
+	</sql>
+
+	<sql id="updateId">
+		id=#{id},entrust_no=#{entrustNo},trans_out_order_no=#{transOutOrderNo},trans_account=#{transAccount},other_account=#{otherAccount},trans_date=#{transDate},trans_dt=#{transDt},trans_amount_d=#{transAmountD},trans_amount_c=#{transAmountC},balance=#{balance},sub_trans_code_desc=#{subTransCodeDesc},trade_area=#{tradeArea},show_name=#{showName},trans_memo=#{transMemo},create_user=#{createUser},create_date=#{createDate}
+	</sql>
+
+	<resultMap type="AliAccountDetail" id="aliAccountDetailMap">
+		<result property="id" column="id" />
+		<result property="entrustNo" column="entrust_no" />
+		<result property="transOutOrderNo" column="trans_out_order_no" />
+		<result property="transAccount" column="trans_account" />
+		<result property="otherAccount" column="other_account" />
+		<result property="transDate" column="trans_date" />
+		<result property="transDt" column="trans_dt" />
+		<result property="transAmountD" column="trans_amount_d" />
+		<result property="transAmountC" column="trans_amount_c" />
+		<result property="balance" column="balance" />
+		<result property="subTransCodeDesc" column="sub_trans_code_desc" />
+		<result property="tradeArea" column="trade_area" />
+		<result property="showName" column="show_name" />
+		<result property="transMemo" column="trans_memo" />
+		<result property="createUser" column="create_user" />
+		<result property="createDate" column="create_date" />
+	</resultMap>
+
+</mapper>

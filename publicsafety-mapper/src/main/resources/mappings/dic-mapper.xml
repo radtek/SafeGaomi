@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hisign.publicsafety.mapper.DicMapper">
+
+<!--mybatis ehcache缓存配置  -->
+<!-- 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 -->
+<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/> -->
+<!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
+	<!-- 以下与实体类的中字段一致 -->
+	<sql id="selectId">
+		dic.id,
+		dic.dicKey,
+		dic.dicName,
+		dic.dicParentKey,
+		dic.dicTypeId,
+		dic.description,
+		dic.dicLevel,
+		dic.status,
+		dic.rev1
+	</sql>
+	
+	<select id="isExist" resultType="Dic" parameterType="String">
+		select
+		<include refid="selectId" />
+		from dic
+		where dicKey = #{dicKey}
+	</select>
+	
+	<sql id="clausePage">
+		from dic,dic_type
+		<where>
+		dic.dicTypeId=dic_type.id
+		<if test="t.dicName != null and t.dicName != ''">
+			and dic.dicName like CONCAT('%',#{t.dicName},'%')
+		</if>
+		<if test="t.dicTypeKey != null and t.dicTypeKey != ''">
+			and dic_type.dicTypeKey = #{t.dicTypeKey}
+		</if>
+		<if test="t.dicKey != null and t.dicKey != ''">
+			and dic.dicKey like CONCAT('%',#{t.dicKey},'%')
+		</if>
+		<if test="t.dicParentKey != null and t.dicParentKey != ''">
+			and dic.dicParentKey = #{t.dicParentKey}
+		</if>
+		<if test="t.dicLevel != null and t.dicLevel != ''">
+			and dic.dicLevel = #{t.dicLevel}
+		</if>
+		<if test="t.dicTypeId != null and t.dicTypeId != ''">
+			and dic.dicTypeId = #{t.dicTypeId}
+		</if>
+		</where> 
+	</sql>
+	
+	<select id="query" resultType="Dic" parameterType="java.util.HashMap">
+		select
+		<include refid="selectId" />,dic_type.dicTypeName,dic_type.dicTypeKey
+		<include refid="clausePage" />
+		order by dic.dicKey
+			<if test="start != null or size != null">
+				limit #{start},#{size}
+			</if>
+	</select>
+	<!--  -->
+	<select id="getCount" resultType="Integer" parameterType="java.util.HashMap">
+		select
+			count(0)
+		<include refid="clausePage" />
+	</select>
+	
+	<select id="queryAll" resultType="Dic" parameterType="Dic">
+		select
+		<include refid="selectId" />,dic_type.dicTypeName,dic_type.dicTypeKey
+		from dic,dic_type
+		where dic.dicTypeId=dic_type.id
+		<if test="id != null and id != ''">
+			and dic.id  = #{id}
+		</if>
+		<if test="dicName != null and dicName != ''">
+			and dic.dicName like CONCAT('%',#{dicName},'%')
+		</if>
+		<if test="dicTypeKey != null and dicTypeKey != ''">
+			and dic_type.dicTypeKey = #{dicTypeKey}
+		</if>
+		<if test="dicKey != null and dicKey != ''">
+			and dic.dicKey = #{dicKey}
+		</if>
+		<if test="dicParentKey != null and dicParentKey != ''">
+			and dic.dicParentKey = #{dicParentKey}
+		</if>
+		<if test="dicLevel != null and dicLevel != ''">
+			and dic.dicLevel = #{dicLevel}
+		</if>
+		<if test="dicTypeId != null and dicTypeId != ''">
+			and dic.dicTypeId = #{dicTypeId}
+		</if>
+		order by dic.dicKey
+	</select>
+	
+	<!-- 增加人员 -->
+	<insert id="add" parameterType="Dic">
+		insert into dic (
+			id,
+			dicKey,
+			dicName,
+			dicParentKey,
+			dicTypeId,
+			description,
+			dicLevel,
+			status
+		)values (
+			#{id},
+			#{dicKey},
+			#{dicName},
+			#{dicParentKey},
+			#{dicTypeId},
+			#{description},
+			#{dicLevel},
+			#{status}
+		)
+	</insert>
+
+	<delete id="delete" parameterType="String">
+		delete from dic where
+		id=#{id}
+	</delete>
+	
+	<select id="getById" parameterType="String" resultType="Dic">
+		select
+		<include refid="selectId" />,dic_type.dicTypeName,dic_type.dicTypeKey
+		from dic,dic_type
+		where
+		dic.dicTypeId=dic_type.id
+		and
+		dic.id=#{id}
+	</select>
+	
+	<update id="update" parameterType="Dic">
+		update dic
+		<set>
+			<if test="dicTypeId != null and dicTypeId != ''">
+				dicTypeId=#{dicTypeId},
+			</if>
+			<if test="dicKey != null and dicKey != ''">
+				dicKey=#{dicKey},
+			</if>
+			<if test="dicName != null and dicName != ''">
+				dicName=#{dicName},
+			</if>
+			<if test="description != null and description != ''">
+				description=#{description},
+			</if>
+			<if test="dicLevel != null and dicLevel != ''">
+				dicLevel=#{dicLevel},
+			</if>
+			<if test="status != null and status != ''">
+				status=#{status}
+			</if>
+		</set>
+	   where id = #{id}
+	</update>
+	<update id="deleteDic" parameterType="String">
+		update dic set deletestatus = 1
+		where id = #{id}
+	</update>
+</mapper>
